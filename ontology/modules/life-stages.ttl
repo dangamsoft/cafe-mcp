@@ -1,0 +1,50 @@
+@prefix saju:    <https://24plus.ai.kr/ontology/saju#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#==============================================================================
+# Twelve Life Stages (12운성)
+# Module of CAFE Ontology · https://24plus.ai.kr/ontology/saju
+#==============================================================================
+
+#==============================================================================
+# 12 LIFE STAGES (12운성)
+#==============================================================================
+
+saju:LifeStage a owl:Class ;
+    rdfs:label "Sibi-unseong"@en , "십이운성(十二運星)"@ko ;
+    rdfs:comment "One of twelve stages representing the life-cycle strength of a stem against a branch."@en ,
+                 "천간이 지지를 만났을 때의 생장소멸 12단계."@ko .
+
+saju:hasLifeStage a owl:ObjectProperty ;
+    rdfs:label "has life stage"@en , "운성"@ko ;
+    rdfs:range saju:LifeStage .
+
+saju:Stage_장생 a saju:LifeStage ; rdfs:label "Jangsaeng"@en , "장생(長生)"@ko ;
+    rdfs:comment "Birth — beginning of growth."@en .
+saju:Stage_목욕 a saju:LifeStage ; rdfs:label "Mokyok"@en , "목욕(沐浴)"@ko ;
+    rdfs:comment "Bathing — vulnerable youth."@en .
+saju:Stage_관대 a saju:LifeStage ; rdfs:label "Gwandae"@en , "관대(冠帶)"@ko ;
+    rdfs:comment "Capping — coming of age."@en .
+saju:Stage_건록 a saju:LifeStage ; rdfs:label "Geollok"@en , "건록(建祿)"@ko ;
+    rdfs:comment "Established — career foundation."@en .
+saju:Stage_제왕 a saju:LifeStage ; rdfs:label "Jewang"@en , "제왕(帝旺)"@ko ;
+    rdfs:comment "Peak — maximum strength."@en .
+saju:Stage_쇠 a saju:LifeStage ; rdfs:label "Soe"@en , "쇠(衰)"@ko ;
+    rdfs:comment "Decline — energy waning."@en .
+saju:Stage_병 a saju:LifeStage ; rdfs:label "Byeong"@en , "병(病)"@ko ;
+    rdfs:comment "Sickness — weakness."@en .
+saju:Stage_사 a saju:LifeStage ; rdfs:label "Sa"@en , "사(死)"@ko ;
+    rdfs:comment "Death — extinction of strength."@en .
+saju:Stage_묘 a saju:LifeStage ; rdfs:label "Myo"@en , "묘(墓)"@ko ;
+    rdfs:comment "Tomb — storage."@en .
+saju:Stage_절 a saju:LifeStage ; rdfs:label "Jeol"@en , "절(絶)"@ko ;
+    rdfs:comment "Severance — total absence."@en .
+saju:Stage_태 a saju:LifeStage ; rdfs:label "Tae"@en , "태(胎)"@ko ;
+    rdfs:comment "Conception — beginning of new life."@en .
+saju:Stage_양 a saju:LifeStage ; rdfs:label "Yang (stage)"@en , "양(養)"@ko ;
+    rdfs:comment "Nourishment — gestation."@en .
+
+

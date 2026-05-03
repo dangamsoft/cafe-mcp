@@ -1,0 +1,65 @@
+@prefix saju:    <https://24plus.ai.kr/ontology/saju#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+#==============================================================================
+# Six Classical Treatises (6대 고전)
+# Module of CAFE Ontology · https://24plus.ai.kr/ontology/saju
+#==============================================================================
+
+#==============================================================================
+# CLASSICAL TREATISES (6대 고전 원전)
+#==============================================================================
+
+saju:ClassicalTreatise a owl:Class ;
+    rdfs:label "Classical Treatise"@en , "고전 원전"@ko ;
+    rdfs:comment "Authoritative classical text of Korean/Chinese Myeongli."@en ,
+                 "명리학의 권위 있는 고전 문헌."@ko .
+
+saju:Jeokcheonsu a saju:ClassicalTreatise ;
+    rdfs:label "Jeokcheonsu (Drops of Heaven)"@en , "적천수(滴天髓)"@ko ;
+    rdfs:comment "Ming dynasty treatise emphasizing dynamic interaction of ten gods."@en ,
+                 "명대 유백온(劉伯溫) 저, 십신의 동태적 작용을 강조."@ko .
+
+saju:Jajupyeongjinjeon a saju:ClassicalTreatise ;
+    rdfs:label "Zipingzhenquan"@en , "자평진전(子平眞詮)"@ko ;
+    rdfs:comment "Qing dynasty treatise systematizing pattern (격국) theory."@en ,
+                 "청대 심효첨(沈孝瞻) 저, 격국론의 체계화."@ko .
+
+saju:Nanggangmang a saju:ClassicalTreatise ;
+    rdfs:label "Lanjiangwang"@en , "난강망(欄江網)"@ko ;
+    rdfs:comment "Late Ming/Qing treatise on month-stem-based pattern formation."@en ,
+                 "명청대 저작, 월간 중심 격국 형성론."@ko .
+
+saju:Gungtongbogam a saju:ClassicalTreatise ;
+    rdfs:label "Qiongtongbaojian"@en , "궁통보감(窮通寶鑑)"@ko ;
+    rdfs:comment "Ming-Qing treatise centered on climate (조후) yongshin theory."@en ,
+                 "명청대 저작, 조후용신 중심 이론."@ko .
+
+saju:Yeonhaejapyeong a saju:ClassicalTreatise ;
+    rdfs:label "Yuanhaiziping"@en , "연해자평(淵海子平)"@ko ;
+    rdfs:comment "Song dynasty foundational treatise of Ziping school."@en ,
+                 "송대 자평학파의 기초 문헌."@ko .
+
+saju:Sammyeongtonghoe a saju:ClassicalTreatise ;
+    rdfs:label "Sanmingtonghui"@en , "삼명통회(三命通會)"@ko ;
+    rdfs:comment "Ming dynasty encyclopedic compilation by Wan Minying."@en ,
+                 "명대 만민영(萬民英) 저, 명리 백과사전적 편찬."@ko .
+
+# Property: which treatise a concept originates from
+saju:groundedIn a owl:ObjectProperty ;
+    rdfs:label "grounded in"@en , "근거 고전"@ko ;
+    rdfs:range saju:ClassicalTreatise ;
+    rdfs:comment "Indicates which classical treatise grounds a concept or rule."@en .
+
+# Map theoretical lineage
+saju:ClimateYongshin    saju:groundedIn saju:Gungtongbogam .
+saju:OfficialPattern    saju:groundedIn saju:Jajupyeongjinjeon .
+saju:SevenKillingsPattern saju:groundedIn saju:Jajupyeongjinjeon .
+saju:DirectResourcePattern saju:groundedIn saju:Jajupyeongjinjeon .
+saju:RegulatingYongshin saju:groundedIn saju:Jeokcheonsu .
+

@@ -1,0 +1,28 @@
+@prefix saju:    <https://24plus.ai.kr/ontology/saju#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+#==============================================================================
+# Ten Gods (십신)
+# Module of CAFE Ontology · https://24plus.ai.kr/ontology/saju
+#==============================================================================
+
+#==============================================================================
+# TEN GOD INSTANCES (십신)
+#==============================================================================
+
+saju:Companion        a saju:TenGod ; rdfs:label "Companion"@en        , "비견(比肩)"@ko .
+saju:RobWealth        a saju:TenGod ; rdfs:label "Rob Wealth"@en       , "겁재(劫財)"@ko .
+saju:EatingGod        a saju:TenGod ; rdfs:label "Eating God"@en       , "식신(食神)"@ko .
+saju:HurtingOfficer   a saju:TenGod ; rdfs:label "Hurting Officer"@en  , "상관(傷官)"@ko .
+saju:DirectWealth     a saju:TenGod ; rdfs:label "Direct Wealth"@en    , "정재(正財)"@ko .
+saju:IndirectWealth   a saju:TenGod ; rdfs:label "Indirect Wealth"@en  , "편재(偏財)"@ko .
+saju:DirectOfficer    a saju:TenGod ; rdfs:label "Direct Officer"@en   , "정관(正官)"@ko .
+saju:SevenKillings    a saju:TenGod ; rdfs:label "Seven Killings"@en   , "편관(偏官/七殺)"@ko .
+saju:DirectResource   a saju:TenGod ; rdfs:label "Direct Resource"@en  , "정인(正印)"@ko .
+saju:IndirectResource a saju:TenGod ; rdfs:label "Indirect Resource"@en, "편인(偏印)"@ko .
+

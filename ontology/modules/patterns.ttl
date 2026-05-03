@@ -1,0 +1,196 @@
+@prefix saju:    <https://24plus.ai.kr/ontology/saju#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+#==============================================================================
+# Patterns (격국) and Yongshin (용신)
+# Module of CAFE Ontology · https://24plus.ai.kr/ontology/saju
+# v0.5.0 — 격국 18종 (정격 10 + 특수격 8) · 용신 5종
+#==============================================================================
+
+#==============================================================================
+# PATTERN PARENT CLASSES (격국 상위 분류)
+#==============================================================================
+
+saju:RegularPattern a owl:Class ;
+    rdfs:subClassOf saju:Pattern ;
+    rdfs:label "Jeong-gyeok"@en , "정격(正格)"@ko ;
+    rdfs:comment "Orthodox patterns derived from the month branch's ten-god mapping."@en ,
+                 "월지의 십신을 기준으로 결정되는 정통 격국."@ko .
+
+saju:SpecialPattern a owl:Class ;
+    rdfs:subClassOf saju:Pattern ;
+    rdfs:label "Teuksu-gyeok"@en , "특수격(特殊格)"@ko ;
+    rdfs:comment "Special patterns where the day master cannot maintain orthodox structure (following types, transformation types)."@en ,
+                 "일간이 정격을 유지하지 못하고 다른 세력에 따르거나 화(化)하는 특수 격국."@ko .
+
+#==============================================================================
+# REGULAR PATTERNS — 정격 10종
+# Month-branch ten-god based orthodox patterns
+#==============================================================================
+
+saju:OfficialPattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Jeonggwan-gyeok"@en , "정관격"@ko ;
+    rdfs:comment "Pattern based on the proper officer (正官) at the month branch."@en ,
+                 "월지가 정관(正官)으로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:SevenKillingsPattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Pyeon-gwan-gyeok"@en , "편관격(七殺格)"@ko ;
+    rdfs:comment "Pattern based on the seven killings (七殺/偏官) at the month branch."@en ,
+                 "월지가 편관(偏官) 또는 칠살(七殺)로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:DirectResourcePattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Jeong-in-gyeok"@en , "정인격"@ko ;
+    rdfs:comment "Pattern based on the proper resource (正印) at the month branch."@en ,
+                 "월지가 정인(正印)으로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:IndirectResourcePattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Pyeon-in-gyeok"@en , "편인격"@ko ;
+    rdfs:comment "Pattern based on the indirect resource (偏印) at the month branch."@en ,
+                 "월지가 편인(偏印)으로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:EatingGodPattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Siksin-gyeok"@en , "식신격"@ko ;
+    rdfs:comment "Pattern based on the eating god (食神) at the month branch."@en ,
+                 "월지가 식신(食神)으로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:HurtingOfficerPattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Sanggwan-gyeok"@en , "상관격"@ko ;
+    rdfs:comment "Pattern based on the hurting officer (傷官) at the month branch."@en ,
+                 "월지가 상관(傷官)으로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:DirectWealthPattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Jeong-jae-gyeok"@en , "정재격"@ko ;
+    rdfs:comment "Pattern based on the direct wealth (正財) at the month branch."@en ,
+                 "월지가 정재(正財)로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:IndirectWealthPattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Pyeon-jae-gyeok"@en , "편재격"@ko ;
+    rdfs:comment "Pattern based on the indirect wealth (偏財) at the month branch."@en ,
+                 "월지가 편재(偏財)로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:BuildingFortunePattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Geollok-gyeok"@en , "건록격(建祿格)"@ko ;
+    rdfs:comment "Pattern based on the day master's own element being prominent at the month branch (比肩 root)."@en ,
+                 "월지가 일간의 비견(같은 오행)으로 통근한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:YangBladePattern a owl:Class ;
+    rdfs:subClassOf saju:RegularPattern ;
+    rdfs:label "Yangin-gyeok"@en , "양인격(羊刃格)"@ko ;
+    rdfs:comment "Pattern based on rob-wealth (劫財) dominance — extreme strength of day master."@en ,
+                 "월지가 일간의 겁재로 통근한 강한 격국."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+#==============================================================================
+# SPECIAL PATTERNS — 특수격 8종
+# Following patterns (종격 6) + Combined-Chi pattern (종기격 1) + Transformation pattern (화기격 1)
+# v0.5.0 추가: 종세격 (FollowingMomentumPattern), 종기격 (FollowingChiPattern)
+#==============================================================================
+
+saju:FollowingStrongPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-wang-gyeok"@en , "종왕격(從旺格)"@ko ;
+    rdfs:comment "Day master overwhelmingly strong, follows companion/rob-wealth element."@en ,
+                 "일간이 극도로 강하여 비겁의 세력에 따르는 격국."@ko .
+
+saju:FollowingResourcePattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-gang-gyeok"@en , "종강격(從强格)"@ko ;
+    rdfs:comment "Day master follows resource (인성) element."@en ,
+                 "일간이 인성의 세력에 따르는 격국."@ko .
+
+saju:FollowingWealthPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-jae-gyeok-special"@en , "종재격(從財格)"@ko ;
+    rdfs:comment "Day master too weak, follows wealth element (sole 재성 dominance). Distinguished from regular 정재격 by being a special pattern."@en ,
+                 "일간이 약하여 재성 단일 세력에 따르는 격국."@ko .
+
+saju:FollowingOfficerPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-sal-gyeok"@en , "종살격(從殺格)"@ko ;
+    rdfs:comment "Day master too weak, follows officer/killings element (sole 관살 dominance)."@en ,
+                 "일간이 약하여 관살 단일 세력에 따르는 격국."@ko .
+
+saju:FollowingOutputPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-a-gyeok"@en , "종아격(從兒格)"@ko ;
+    rdfs:comment "Day master follows the element it produces (sole 식상 dominance)."@en ,
+                 "일간이 식상 단일 세력에 따르는 격국."@ko .
+
+saju:FollowingMomentumPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-se-gyeok"@en , "종세격(從勢格)"@ko ;
+    rdfs:comment "Day master follows the combined momentum of food/wealth/officer (식·재·관 mixed dominance) without one taking sole charge."@en ,
+                 "일간이 식상·재성·관살 세 세력의 혼합 기세에 따르는 격국. 단일 세력이 압도하지 않고 셋이 섞여 강할 때 성립."@ko .
+
+saju:FollowingChiPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Jong-gi-gyeok"@en , "종기격(從氣格)"@ko ;
+    rdfs:comment "Day master follows the combined force of two Five-Element groups (e.g., metal-water 金水, wood-fire 木火, fire-earth 火土)."@en ,
+                 "일간이 두 오행의 결합된 큰 세력에 따르는 격국. 금수종(金水), 목화종(木火), 화토종(火土) 등 두 오행이 결합된 추세에 종(從)함."@ko .
+
+saju:TransformPattern a owl:Class ;
+    rdfs:subClassOf saju:SpecialPattern ;
+    rdfs:label "Hwagi-gyeok"@en , "화기격(化氣格)"@ko ;
+    rdfs:comment "Day master combined with another stem, transformed into new element."@en ,
+                 "일간이 천간합으로 다른 오행으로 화(化)한 격국."@ko .
+
+#==============================================================================
+# YONGSHIN SUBCLASSES (용신 분류 — 5종)
+# Verified definitions reviewed by Dangamsoft / CAFE engine.
+#==============================================================================
+
+saju:PatternYongshin a owl:Class ;
+    rdfs:subClassOf saju:Yongshin ;
+    rdfs:label "Gyeokguk Yongshin"@en , "격국용신(格局用神)"@ko ;
+    rdfs:comment "Yongshin derived from the chart's pattern (격국). The structural type of the chart determines the yongshin."@en ,
+                 "격국에 따라 결정되는 용신. 사주의 구조적 유형이 용신 도출의 기준이 됨."@ko ;
+    saju:groundedIn saju:Jajupyeongjinjeon .
+
+saju:RegulatingYongshin a owl:Class ;
+    rdfs:subClassOf saju:Yongshin ;
+    rdfs:label "Eokbu Yongshin"@en , "억부용신(抑扶用神)"@ko ;
+    rdfs:comment "Yongshin that regulates the strength of the day master by suppression (抑) when strong, or support (扶) when weak."@en ,
+                 "일간의 신강·신약을 조절하는 용신. 신강하면 누르고(抑), 신약하면 도움(扶)."@ko ;
+    saju:groundedIn saju:Jeokcheonsu .
+
+saju:RemedialYongshin a owl:Class ;
+    rdfs:subClassOf saju:Yongshin ;
+    rdfs:label "Byeongyak Yongshin"@en , "병약용신(病藥用神)"@ko ;
+    rdfs:comment "Yongshin that cures (藥) the chart's illness (病) — the harmful element being the disease, the yongshin being the remedy."@en ,
+                 "사주의 병(病)이 되는 요소를 치료(藥)하는 용신."@ko .
+
+saju:ClimateYongshin a owl:Class ;
+    rdfs:subClassOf saju:Yongshin ;
+    rdfs:label "Johu Yongshin"@en , "조후용신(調候用神)"@ko ;
+    rdfs:comment "Yongshin that balances the chart's cold-warm-dry-humid condition (寒暖燥濕), determined relative to the month branch."@en ,
+                 "사주의 한난조습(寒暖燥濕)을 조절하는 용신. 월지 기준으로 균형을 맞추는 오행."@ko ;
+    saju:groundedIn saju:Gungtongbogam .
+
+saju:MediatingYongshin a owl:Class ;
+    rdfs:subClassOf saju:Yongshin ;
+    rdfs:label "Tonggwan Yongshin"@en , "통관용신(通關用神)"@ko ;
+    rdfs:comment "Yongshin that mediates between two strong opposing forces, transforming a controlling relationship into a generative flow."@en ,
+                 "대립하는 두 강한 세력 사이를 중재하여 상생의 흐름으로 전환시키는 용신."@ko .

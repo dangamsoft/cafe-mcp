@@ -1,0 +1,142 @@
+@prefix saju:    <https://24plus.ai.kr/ontology/saju#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+#==============================================================================
+# Relations: Combinations, Clashes, Harmonies, Directional Groups
+# Module of CAFE Ontology · https://24plus.ai.kr/ontology/saju
+#==============================================================================
+
+#==============================================================================
+# HEAVENLY STEM COMBINATIONS (천간합 5쌍)
+#==============================================================================
+
+saju:Combo_갑기 a saju:Combination ;
+    rdfs:label "Jia-Ji combination"@en , "갑기합"@ko ;
+    saju:participatesIn saju:Stem_갑 , saju:Stem_기 ;
+    saju:transformsInto saju:Earth .
+
+saju:Combo_을경 a saju:Combination ;
+    rdfs:label "Yi-Geng combination"@en , "을경합"@ko ;
+    saju:participatesIn saju:Stem_을 , saju:Stem_경 ;
+    saju:transformsInto saju:Metal .
+
+saju:Combo_병신 a saju:Combination ;
+    rdfs:label "Bing-Xin combination"@en , "병신합"@ko ;
+    saju:participatesIn saju:Stem_병 , saju:Stem_신 ;
+    saju:transformsInto saju:Water .
+
+saju:Combo_정임 a saju:Combination ;
+    rdfs:label "Ding-Ren combination"@en , "정임합"@ko ;
+    saju:participatesIn saju:Stem_정 , saju:Stem_임 ;
+    saju:transformsInto saju:Wood .
+
+saju:Combo_무계 a saju:Combination ;
+    rdfs:label "Wu-Gui combination"@en , "무계합"@ko ;
+    saju:participatesIn saju:Stem_무 , saju:Stem_계 ;
+    saju:transformsInto saju:Fire .
+
+# Symmetric combination assertions
+saju:Stem_갑 saju:combinesWith saju:Stem_기 .
+saju:Stem_을 saju:combinesWith saju:Stem_경 .
+saju:Stem_병 saju:combinesWith saju:Stem_신 .
+saju:Stem_정 saju:combinesWith saju:Stem_임 .
+saju:Stem_무 saju:combinesWith saju:Stem_계 .
+
+#==============================================================================
+# EARTHLY BRANCH CLASHES (지지충 6쌍)
+#==============================================================================
+
+saju:Branch_자 saju:clashesWith saju:Branch_오 .
+saju:Branch_축 saju:clashesWith saju:Branch_미 .
+saju:Branch_인 saju:clashesWith saju:Branch_신 .
+saju:Branch_묘 saju:clashesWith saju:Branch_유 .
+saju:Branch_진 saju:clashesWith saju:Branch_술 .
+saju:Branch_사 saju:clashesWith saju:Branch_해 .
+
+#==============================================================================
+# EARTHLY BRANCH SIX HARMONIES (지지 육합)
+#==============================================================================
+
+saju:SixHarmony_자축 a saju:Combination ;
+    rdfs:label "Zi-Chou harmony"@en , "자축합"@ko ;
+    saju:participatesIn saju:Branch_자 , saju:Branch_축 ;
+    saju:transformsInto saju:Earth .
+
+saju:SixHarmony_인해 a saju:Combination ;
+    rdfs:label "Yin-Hai harmony"@en , "인해합"@ko ;
+    saju:participatesIn saju:Branch_인 , saju:Branch_해 ;
+    saju:transformsInto saju:Wood .
+
+saju:SixHarmony_묘술 a saju:Combination ;
+    rdfs:label "Mao-Xu harmony"@en , "묘술합"@ko ;
+    saju:participatesIn saju:Branch_묘 , saju:Branch_술 ;
+    saju:transformsInto saju:Fire .
+
+saju:SixHarmony_진유 a saju:Combination ;
+    rdfs:label "Chen-You harmony"@en , "진유합"@ko ;
+    saju:participatesIn saju:Branch_진 , saju:Branch_유 ;
+    saju:transformsInto saju:Metal .
+
+saju:SixHarmony_사신 a saju:Combination ;
+    rdfs:label "Si-Shen harmony"@en , "사신합"@ko ;
+    saju:participatesIn saju:Branch_사 , saju:Branch_신 ;
+    saju:transformsInto saju:Water .
+
+saju:SixHarmony_오미 a saju:Combination ;
+    rdfs:label "Wu-Wei harmony"@en , "오미합"@ko ;
+    saju:participatesIn saju:Branch_오 , saju:Branch_미 ;
+    saju:transformsInto saju:Fire .
+
+#==============================================================================
+# EARTHLY BRANCH THREE HARMONIES (지지 삼합 4세트)
+#==============================================================================
+
+saju:ThreeHarmony_신자진 a saju:Combination ;
+    rdfs:label "Shen-Zi-Chen Water Bureau"@en , "신자진 수국(水局)"@ko ;
+    saju:participatesIn saju:Branch_신 , saju:Branch_자 , saju:Branch_진 ;
+    saju:transformsInto saju:Water .
+
+saju:ThreeHarmony_인오술 a saju:Combination ;
+    rdfs:label "Yin-Wu-Xu Fire Bureau"@en , "인오술 화국(火局)"@ko ;
+    saju:participatesIn saju:Branch_인 , saju:Branch_오 , saju:Branch_술 ;
+    saju:transformsInto saju:Fire .
+
+saju:ThreeHarmony_사유축 a saju:Combination ;
+    rdfs:label "Si-You-Chou Metal Bureau"@en , "사유축 금국(金局)"@ko ;
+    saju:participatesIn saju:Branch_사 , saju:Branch_유 , saju:Branch_축 ;
+    saju:transformsInto saju:Metal .
+
+saju:ThreeHarmony_해묘미 a saju:Combination ;
+    rdfs:label "Hai-Mao-Wei Wood Bureau"@en , "해묘미 목국(木局)"@ko ;
+    saju:participatesIn saju:Branch_해 , saju:Branch_묘 , saju:Branch_미 ;
+    saju:transformsInto saju:Wood .
+
+#==============================================================================
+# EARTHLY BRANCH DIRECTIONAL GROUPS (방합 4세트)
+#==============================================================================
+
+saju:Directional_인묘진 a saju:Combination ;
+    rdfs:label "Eastern Wood"@en , "인묘진 동방목(東方木)"@ko ;
+    saju:participatesIn saju:Branch_인 , saju:Branch_묘 , saju:Branch_진 ;
+    saju:transformsInto saju:Wood .
+
+saju:Directional_사오미 a saju:Combination ;
+    rdfs:label "Southern Fire"@en , "사오미 남방화(南方火)"@ko ;
+    saju:participatesIn saju:Branch_사 , saju:Branch_오 , saju:Branch_미 ;
+    saju:transformsInto saju:Fire .
+
+saju:Directional_신유술 a saju:Combination ;
+    rdfs:label "Western Metal"@en , "신유술 서방금(西方金)"@ko ;
+    saju:participatesIn saju:Branch_신 , saju:Branch_유 , saju:Branch_술 ;
+    saju:transformsInto saju:Metal .
+
+saju:Directional_해자축 a saju:Combination ;
+    rdfs:label "Northern Water"@en , "해자축 북방수(北方水)"@ko ;
+    saju:participatesIn saju:Branch_해 , saju:Branch_자 , saju:Branch_축 ;
+    saju:transformsInto saju:Water .
+

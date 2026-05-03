@@ -1,0 +1,431 @@
+@prefix saju:    <https://24plus.ai.kr/ontology/saju#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+#==============================================================================
+# Sinsal (신살 75종)
+# Module of CAFE Ontology · https://24plus.ai.kr/ontology/saju
+#==============================================================================
+
+#==============================================================================
+# 75 SINSAL INSTANCES (신살 75종)
+# Option B: Revised Romanization for English labels
+#==============================================================================
+
+# ─── Sinsal subclasses (6 categories) ───
+
+saju:TwelveSinsal a owl:Class ;
+    rdfs:subClassOf saju:Sinsal .
+
+saju:RelationalSinsal a owl:Class ;
+    rdfs:subClassOf saju:Sinsal .
+
+saju:FormSinsal a owl:Class ;
+    rdfs:subClassOf saju:Sinsal .
+
+saju:DayBasedSinsal a owl:Class ;
+    rdfs:subClassOf saju:Sinsal .
+
+saju:MaleficSinsal a owl:Class ;
+    rdfs:subClassOf saju:Sinsal .
+
+saju:BeneficSinsal a owl:Class ;
+    rdfs:subClassOf saju:Sinsal .
+
+saju:SinsalNature a owl:Class .
+saju:Auspicious   a saju:SinsalNature ; rdfs:label "Gil"@en , "길(吉)"@ko .
+saju:Inauspicious a saju:SinsalNature ; rdfs:label "Hyung"@en , "흉(凶)"@ko .
+saju:Neutral      a saju:SinsalNature ; rdfs:label "Jung"@en , "중(中)"@ko .
+
+saju:hasNature a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "has nature"@en , "본연 길흉"@ko ;
+    rdfs:domain saju:Sinsal ; rdfs:range saju:SinsalNature .
+
+saju:alias a owl:DatatypeProperty ;
+    rdfs:label "alias"@en , "별칭"@ko ;
+    rdfs:range xsd:string .
+
+# ─── 십이신살(十二神煞) (12개) ───
+
+saju:Sinsal_겁살 a saju:TwelveSinsal ;
+    rdfs:label "Geopsal"@en , "겁살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "대살" , "영웅살" .
+
+saju:Sinsal_재살 a saju:TwelveSinsal ;
+    rdfs:label "Jaesal"@en , "재살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "수옥살" , "감옥살" .
+
+saju:Sinsal_천살 a saju:TwelveSinsal ;
+    rdfs:label "Cheonsal"@en , "천살"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_지살 a saju:TwelveSinsal ;
+    rdfs:label "Jisal"@en , "지살"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_년살 a saju:TwelveSinsal ;
+    rdfs:label "Nyeonsal"@en , "년살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "도화살" , "함지살" .
+
+saju:Sinsal_월살 a saju:TwelveSinsal ;
+    rdfs:label "Wolsal"@en , "월살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "고초살" , "고갈살" , "무속인살" .
+
+saju:Sinsal_망신살 a saju:TwelveSinsal ;
+    rdfs:label "Mangsinsal"@en , "망신살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "망신" , "관부살" , "파군살" .
+
+saju:Sinsal_장성살 a saju:TwelveSinsal ;
+    rdfs:label "Jangseongsal"@en , "장성살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "장성" , "무관살" .
+
+saju:Sinsal_반안살 a saju:TwelveSinsal ;
+    rdfs:label "Banansal"@en , "반안살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "반안" .
+
+saju:Sinsal_역마살 a saju:TwelveSinsal ;
+    rdfs:label "Yeokmasal"@en , "역마살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "역마" , "이동살" .
+
+saju:Sinsal_육해살 a saju:TwelveSinsal ;
+    rdfs:label "Yukhaesal"@en , "육해살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "육액살" .
+
+saju:Sinsal_화개살 a saju:TwelveSinsal ;
+    rdfs:label "Hwagaesal"@en , "화개살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "화개" .
+
+# ─── 관계성 신살 (15개) ───
+
+saju:Sinsal_간합 a saju:RelationalSinsal ;
+    rdfs:label "Ganhap"@en , "간합"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "천간합" .
+
+saju:Sinsal_간충 a saju:RelationalSinsal ;
+    rdfs:label "Ganchung"@en , "간충"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "천간충" .
+
+saju:Sinsal_육합 a saju:RelationalSinsal ;
+    rdfs:label "Yukhap"@en , "육합"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "지지육합" .
+
+saju:Sinsal_삼합 a saju:RelationalSinsal ;
+    rdfs:label "Samhap"@en , "삼합"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "지지삼합" .
+
+saju:Sinsal_방합 a saju:RelationalSinsal ;
+    rdfs:label "Banghap"@en , "방합"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "지지방합" .
+
+saju:Sinsal_반합 a saju:RelationalSinsal ;
+    rdfs:label "Banhap"@en , "반합"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_상충 a saju:RelationalSinsal ;
+    rdfs:label "Sangchung"@en , "상충"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "지지충" , "충" .
+
+saju:Sinsal_삼형 a saju:RelationalSinsal ;
+    rdfs:label "Samhyeong"@en , "삼형"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "지지삼형" .
+
+saju:Sinsal_반형 a saju:RelationalSinsal ;
+    rdfs:label "Banhyeong"@en , "반형"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_상형 a saju:RelationalSinsal ;
+    rdfs:label "Sanghyeong"@en , "상형"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "지지형" , "형" .
+
+saju:Sinsal_자형 a saju:RelationalSinsal ;
+    rdfs:label "Jahyeong"@en , "자형"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_붕충 a saju:RelationalSinsal ;
+    rdfs:label "Bungchung"@en , "붕충"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_붕형 a saju:RelationalSinsal ;
+    rdfs:label "Bunghyeong"@en , "붕형"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_육파 a saju:RelationalSinsal ;
+    rdfs:label "Yukpa"@en , "육파"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "파" , "지지파" .
+
+saju:Sinsal_육해 a saju:RelationalSinsal ;
+    rdfs:label "Yukhae"@en , "육해"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "해" , "지지해" .
+
+# ─── 형상 신살 (4개) ───
+
+saju:Sinsal_현침살 a saju:FormSinsal ;
+    rdfs:label "Hyeonchimsal"@en , "현침살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "현침" .
+
+saju:Sinsal_평두살 a saju:FormSinsal ;
+    rdfs:label "Pyeongdusal"@en , "평두살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "평두" , "업인살" , "종교인살" .
+
+saju:Sinsal_곡각살 a saju:FormSinsal ;
+    rdfs:label "Gokgaksal"@en , "곡각살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "곡각" .
+
+saju:Sinsal_과살 a saju:FormSinsal ;
+    rdfs:label "Gwasal"@en , "과살"@ko ;
+    saju:hasNature saju:Inauspicious .
+
+# ─── 일주/일간 기준 신살 (27개) ───
+
+saju:Sinsal_간여지동 a saju:DayBasedSinsal ;
+    rdfs:label "Ganyeojidong"@en , "간여지동"@ko ;
+    saju:hasNature saju:Neutral .
+
+saju:Sinsal_고란살 a saju:DayBasedSinsal ;
+    rdfs:label "Goransal"@en , "고란살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "고란" , "독수공방살" , "고독살" .
+
+saju:Sinsal_고신살 a saju:DayBasedSinsal ;
+    rdfs:label "Gosinsal"@en , "고신살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "고신" , "고진살" , "고진" .
+
+saju:Sinsal_과숙살 a saju:DayBasedSinsal ;
+    rdfs:label "Gwasuksal"@en , "과숙살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "과숙" , "과수살" .
+
+saju:Sinsal_공망살 a saju:DayBasedSinsal ;
+    rdfs:label "Gongmangsal"@en , "공망살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "천중살" , "순공" .
+
+saju:Sinsal_괴강살 a saju:DayBasedSinsal ;
+    rdfs:label "Goegangsal"@en , "괴강살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "괴강" .
+
+saju:Sinsal_목욕살 a saju:DayBasedSinsal ;
+    rdfs:label "Mokyoksal"@en , "목욕살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "목욕" , "패지살" .
+
+saju:Sinsal_암합살 a saju:DayBasedSinsal ;
+    rdfs:label "Amhapsal"@en , "암합살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "암합" .
+
+saju:Sinsal_귀문관살 a saju:DayBasedSinsal ;
+    rdfs:label "Gwimun-gwansal"@en , "귀문관살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "귀문관" , "귀문살" , "귀문" .
+
+saju:Sinsal_급각살 a saju:DayBasedSinsal ;
+    rdfs:label "Geupgaksal"@en , "급각살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "급각" .
+
+saju:Sinsal_낙정관살 a saju:DayBasedSinsal ;
+    rdfs:label "Nakjeong-gwansal"@en , "낙정관살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "낙정관" , "낙정살" .
+
+saju:Sinsal_남연살 a saju:DayBasedSinsal ;
+    rdfs:label "Namyeonsal"@en , "남연살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "남연" .
+
+saju:Sinsal_단교관살 a saju:DayBasedSinsal ;
+    rdfs:label "Dangyo-gwansal"@en , "단교관살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "단교관" , "단교살" .
+
+saju:Sinsal_동주욕 a saju:DayBasedSinsal ;
+    rdfs:label "Dongju-yok"@en , "동주욕"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "동주목욕" .
+
+saju:Sinsal_동주사 a saju:DayBasedSinsal ;
+    rdfs:label "Dongju-sa"@en , "동주사"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "동주사지" .
+
+saju:Sinsal_동주묘 a saju:DayBasedSinsal ;
+    rdfs:label "Dongju-myo"@en , "동주묘"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "동주묘지" .
+
+saju:Sinsal_동주절 a saju:DayBasedSinsal ;
+    rdfs:label "Dongju-jeol"@en , "동주절"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "동주절지" .
+
+saju:Sinsal_양인살 a saju:DayBasedSinsal ;
+    rdfs:label "Yanginsal"@en , "양인살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "양인" , "양날살" .
+
+saju:Sinsal_여연살 a saju:DayBasedSinsal ;
+    rdfs:label "Yeoyeonsal"@en , "여연살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "여연" .
+
+saju:Sinsal_원진살 a saju:DayBasedSinsal ;
+    rdfs:label "Wonjinsal"@en , "원진살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "원진" .
+
+saju:Sinsal_음양살 a saju:DayBasedSinsal ;
+    rdfs:label "Eumyangsal"@en , "음양살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "음양" .
+
+saju:Sinsal_음양차착살 a saju:DayBasedSinsal ;
+    rdfs:label "Eumyang-chachaksal"@en , "음양차착살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "음양차착" , "차착살" .
+
+saju:Sinsal_음인살 a saju:DayBasedSinsal ;
+    rdfs:label "Eum-insal"@en , "음인살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "음인" , "음날살" .
+
+saju:Sinsal_의부살 a saju:DayBasedSinsal ;
+    rdfs:label "Uibu-sal"@en , "의부살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "의부" .
+
+saju:Sinsal_의처살 a saju:DayBasedSinsal ;
+    rdfs:label "Uicheo-sal"@en , "의처살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "의처" .
+
+saju:Sinsal_홍염살 a saju:DayBasedSinsal ;
+    rdfs:label "Hongyeomsal"@en , "홍염살"@ko ;
+    saju:hasNature saju:Neutral ;
+    saju:alias "홍염" , "홍란살" , "색정살" .
+
+saju:Sinsal_효신살 a saju:DayBasedSinsal ;
+    rdfs:label "Hyosinsal"@en , "효신살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "효신" .
+
+# ─── 기타 흉신 (4개) ───
+
+saju:Sinsal_삼재살 a saju:MaleficSinsal ;
+    rdfs:label "Samjaesal"@en , "삼재살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "삼재" .
+
+saju:Sinsal_백호대살 a saju:MaleficSinsal ;
+    rdfs:label "Baekho-daesal"@en , "백호대살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "백호살" , "백호" .
+
+saju:Sinsal_탕화살 a saju:MaleficSinsal ;
+    rdfs:label "Tanghwasal"@en , "탕화살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "탕화" .
+
+saju:Sinsal_천라지망살 a saju:MaleficSinsal ;
+    rdfs:label "Cheollajimangsal"@en , "천라지망살"@ko ;
+    saju:hasNature saju:Inauspicious ;
+    saju:alias "천라지망" , "천라살" , "지망살" , "나망살" .
+
+# ─── 길신(吉神) (13개) ───
+
+saju:Sinsal_천덕귀인 a saju:BeneficSinsal ;
+    rdfs:label "Cheondeok-gwiin"@en , "천덕귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "천덕" , "천덕합" .
+
+saju:Sinsal_월덕귀인 a saju:BeneficSinsal ;
+    rdfs:label "Woldeok-gwiin"@en , "월덕귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "월덕" , "월덕합" .
+
+saju:Sinsal_천을귀인 a saju:BeneficSinsal ;
+    rdfs:label "Cheoneul-gwiin"@en , "천을귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "천을" , "천을성" , "옥당귀인" .
+
+saju:Sinsal_금여성 a saju:BeneficSinsal ;
+    rdfs:label "Geumyeoseong"@en , "금여성"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "금여" , "금여귀인" , "금여록" .
+
+saju:Sinsal_학당귀인 a saju:BeneficSinsal ;
+    rdfs:label "Hakdang-gwiin"@en , "학당귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "학당" , "학당살" .
+
+saju:Sinsal_문창귀인 a saju:BeneficSinsal ;
+    rdfs:label "Munchang-gwiin"@en , "문창귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "문창" , "문창살" .
+
+saju:Sinsal_문곡귀인 a saju:BeneficSinsal ;
+    rdfs:label "Mungok-gwiin"@en , "문곡귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "문곡" , "문곡성" .
+
+saju:Sinsal_복성귀인 a saju:BeneficSinsal ;
+    rdfs:label "Bokseong-gwiin"@en , "복성귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "복성" , "복신" .
+
+saju:Sinsal_녹마동향 a saju:BeneficSinsal ;
+    rdfs:label "Nokma-donghyang"@en , "녹마동향"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "녹마" .
+
+saju:Sinsal_천의성 a saju:BeneficSinsal ;
+    rdfs:label "Cheoniseong"@en , "천의성"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "천의" , "천의귀인" .
+
+saju:Sinsal_태극귀인 a saju:BeneficSinsal ;
+    rdfs:label "Taegeuk-gwiin"@en , "태극귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "태극" .
+
+saju:Sinsal_재고귀인 a saju:BeneficSinsal ;
+    rdfs:label "Jaego-gwiin"@en , "재고귀인"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "재고" , "재물창고" .
+
+saju:Sinsal_암록성 a saju:BeneficSinsal ;
+    rdfs:label "Amrokseong"@en , "암록성"@ko ;
+    saju:hasNature saju:Auspicious ;
+    saju:alias "암록" .
+
+# Total sinsal instances: 75
+
