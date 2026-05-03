@@ -10,6 +10,7 @@
 [![W3C OWL 2](https://img.shields.io/badge/W3C-OWL%202-orange.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Ontology](https://img.shields.io/badge/Ontology-1%2C711%20triples-brightgreen.svg)](./ontology/)
 [![Version](https://img.shields.io/badge/Version-0.5.3-green.svg)](#)
+[![SafeSkill 50/100](https://img.shields.io/badge/SafeSkill-50%2F100_Use%20with%20Caution-orange)](https://safeskill.dev/scan/dangamsoft-cafe-mcp)
 
 > ⚠️ **v0.5.x preview** — This release publishes the public W3C OWL
 > ontology and reserves the package name. The working MCP server
