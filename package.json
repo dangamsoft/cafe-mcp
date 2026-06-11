@@ -1,0 +1,41 @@
+{
+  "name": "@dangamsoft/cafe-mcp",
+  "version": "0.6.0",
+  "description": "Korean Saju (Four Pillars / 사주명리) MCP server — 5 free birth-chart analysis tools (chart, five-elements, gyeokguk, yin-yang/climate, yongshin candidates) powered by the CAFE engine.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "Dangamsoft",
+  "homepage": "https://github.com/dangamsoft/cafe-mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dangamsoft/cafe-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dangamsoft/cafe-mcp/issues"
+  },
+  "bin": {
+    "cafe-mcp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "saju",
+    "bazi",
+    "korean",
+    "four-pillars",
+    "fortune-telling",
+    "ontology",
+    "cafe-engine"
+  ]
+}

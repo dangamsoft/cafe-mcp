@@ -9,12 +9,12 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![W3C OWL 2](https://img.shields.io/badge/W3C-OWL%202-orange.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Ontology](https://img.shields.io/badge/Ontology-1%2C711%20triples-brightgreen.svg)](./ontology/)
-[![Version](https://img.shields.io/badge/Version-0.5.3-green.svg)](#)
+[![Version](https://img.shields.io/badge/Version-0.6.0-green.svg)](#)
 
-> ⚠️ **v0.5.x preview** — This release publishes the public W3C OWL
-> ontology and reserves the package name. The working MCP server
-> (`cafe_basic` / `cafe_analysis` tools) and public API launch with
-> **v0.6.0** (planned 2026 Q2). Star the repo to be notified.
+> ✅ **v0.6.0** — The MCP server is live. A local (stdio) server exposing
+> **5 free birth-chart tools** — `saju_chart`, `ohaeng_balance`, `gyeokguk`,
+> `eumyang_johu`, `yongshin_candidates` — alongside the public W3C OWL
+> ontology. See **[Install](#install-mcp-server)** below.
 
 ---
 
@@ -34,6 +34,50 @@ CC BY 4.0으로 학술·시스템 통합·후속 개발에 자유롭게 사용�
 
 이 온톨로지는 **CAFE 엔진**의 공개 레이어입니다 — 결정적(deterministic)
 사주 분석 시스템으로, 명리학 고전 이론과 ML 기반 용신 분류를 결합합니다.
+
+---
+
+## Install (MCP server)
+
+The server runs locally over stdio and talks to the hosted CAFE backend —
+**no API key, no local engine, no database** required.
+
+**Claude Desktop** — add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "cafe-mcp": {
+      "command": "npx",
+      "args": ["-y", "@dangamsoft/cafe-mcp"]
+    }
+  }
+}
+```
+
+**Cursor** — add the same `mcpServers` entry to `~/.cursor/mcp.json`.
+
+Then ask, e.g. *"Show my saju for 1990-01-15 10:30, male."*
+
+### Tools (5, free)
+
+| Tool | Returns |
+|------|---------|
+| `saju_chart` | Four Pillars chart — stems/branches, Ten Gods, Spirit Stars |
+| `ohaeng_balance` | Five Elements (五行) distribution |
+| `gyeokguk` | Chart structure/pattern (格局) |
+| `eumyang_johu` | Yin-Yang & Climate (陰陽·調候) balance |
+| `yongshin_candidates` | Classical 5-type Yongshin (用神) candidates |
+
+All tools take `birth` (`YYYYMMDDHHMM`) and `gender` (0 = female, 1 = male);
+`name` and `is_lunar` are optional.
+
+> The AI-selected final Yongshin (91.1%-accuracy classifier), full Yongshin
+> report, NCODE personality profile and AI naming are part of the paid
+> 24Plus service and are **not** exposed here.
+
+**Custom backend:** set `CAFE_MCP_API_URL` (the server POSTs to
+`${CAFE_MCP_API_URL}/try/panels`; default `https://24plus.ai.kr/api`).
 
 ---
 
@@ -83,10 +127,10 @@ structure it operates on.
 
 ## Roadmap
 
-- **v0.5.x** — Public ontology + name reservation *(current)*
-- **v0.6.0** *(planned 2026 Q2)* — Working MCP server with `cafe_basic` /
-  `cafe_analysis` tools, public API endpoint, tier-based pricing
-- **v0.7+** — Multi-language explanation layers, additional analysis modes
+- **v0.5.x** — Public ontology + name reservation
+- **v0.6.0** — Local (stdio) MCP server with 5 free tools *(current)*
+- **v0.7+** — Hosted/remote server with OAuth + paid tiers (AI-selected
+  yongshin, full report, NCODE), multi-language explanation layers
 
 ---
 
