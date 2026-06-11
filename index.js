@@ -39,6 +39,9 @@ const FUNNEL_NOTE =
   "— 더 깊은 분석(AI 선정 용신 · 전체 리포트)은 https://24plus.ai.kr";
 
 // Shared input schema for all 5 tools (birth chart inputs).
+// v0.6.2 (2026-06-11): expose the chart options the backend already accepts
+// (option1/option2/loc/is_leap_year/time_unknown) so MCP users with a
+// Dongji-basis or Jo-jasi chart get the same chart as the web profile.
 const BIRTH_INPUT = {
   type: "object",
   properties: {
@@ -58,6 +61,28 @@ const BIRTH_INPUT = {
     is_lunar: {
       type: "boolean",
       description: "Optional. true if the birth date is a lunar-calendar date (default false = solar).",
+    },
+    is_leap_year: {
+      type: "boolean",
+      description: "Optional. true if the lunar birth month is a leap month (윤달). Only meaningful with is_lunar=true.",
+    },
+    option1: {
+      type: "integer",
+      enum: [0, 1],
+      description: "Optional Rat-hour (자시) rule — 0: Ya-jasi/야자시 (default), 1: Jo-jasi/조자시.",
+    },
+    option2: {
+      type: "integer",
+      enum: [0, -1],
+      description: "Optional year-pillar season basis — 0: Ipchun/입춘 (default, standard practice), -1: Dongji/동지.",
+    },
+    loc: {
+      type: "integer",
+      description: "Optional birthplace region ID for overseas births (24Plus world-city ID). Omit for Korea.",
+    },
+    time_unknown: {
+      type: "boolean",
+      description: "Optional. true if the birth time is unknown — the chart header marks the hour pillar as estimated. Pair with HHMM=1230.",
     },
   },
   required: ["birth", "gender"],
@@ -104,7 +129,7 @@ const TOOLS = [
 const TOOL_BY_NAME = new Map(TOOLS.map((t) => [t.name, t]));
 
 const server = new Server(
-  { name: "cafe-mcp", version: "0.6.1" },
+  { name: "cafe-mcp", version: "0.6.2" },
   { capabilities: { tools: {} } }
 );
 
@@ -138,12 +163,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 
   // preset is fixed by the tool — never taken from client input.
+  // v0.6.2: forward chart options with strict coercion — only the exact enum
+  // values reach the backend (option2: only -1 means Dongji; anything else → 0).
   const body = {
     preset: tool.preset,
     birth: String(args.birth),
     gender: Number(args.gender),
     name: typeof args.name === "string" ? args.name : "",
     is_lunar: Boolean(args.is_lunar),
+    is_leap_year: Boolean(args.is_leap_year),
+    option1: args.option1 === 1 ? 1 : 0,
+    option2: args.option2 === -1 ? -1 : 0,
+    time_unknown: Boolean(args.time_unknown),
+    ...(Number.isInteger(args.loc) ? { loc: args.loc } : {}),
   };
 
   const controller = new AbortController();
@@ -151,7 +183,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     const res = await fetch(ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        // v0.6.2: channel marker for backend usage analytics (mcp_usage_log).
+        // Older backends simply ignore the header.
+        "X-Channel": "mcp",
+      },
       body: JSON.stringify(body),
       signal: controller.signal,
     });
@@ -180,7 +217,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       panel_count: payload.panel_count,
       panels: payload.panels,
     };
-    return { content: [{ type: "text", text: JSON.stringify(out, null, 2) + "\n\n" + FUNNEL_NOTE }] };
+    // v0.6.2 (2026-06-11): prepend the backend-built [기본정보] text header
+    // (base_info_text) so LLM clients see the chart basis (pillars,
+    // calendar/season basis, gender, age, luck-cycle info, Rat-hour rule)
+    // without parsing the panels JSON. Backends without the field → no header (safe).
+    const headerText =
+      typeof payload.base_info_text === "string" && payload.base_info_text.trim()
+        ? payload.base_info_text.trim() + "\n\n"
+        : "";
+    return { content: [{ type: "text", text: headerText + JSON.stringify(out, null, 2) + "\n\n" + FUNNEL_NOTE }] };
   } catch (err) {
     const msg = err && err.name === "AbortError" ? `timeout after ${REQUEST_TIMEOUT_MS}ms` : String(err);
     return {

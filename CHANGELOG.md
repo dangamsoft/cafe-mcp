@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.2 — 2026-06-11
+
+### Added
+- **[기본정보] text header** prepended to every tool output — the backend-built
+  `base_info_text` (pillars in hour-day-month-year order, calendar & season
+  basis, gender, age, luck-cycle start, current major/yearly luck, Rat-hour
+  rule). Same header the 24Plus web prompt uses; values derive from the actual
+  chart computation, so the header always matches the chart. Backends without
+  the field → no header (safe with older backends).
+- **Chart option inputs** on all 5 tools (backend already accepted these):
+  - `option1` — Rat-hour (자시) rule: `0` Ya-jasi (default) / `1` Jo-jasi
+  - `option2` — year-pillar season basis: `0` Ipchun (default) / `-1` Dongji
+  - `loc` — birthplace region ID for overseas births
+  - `is_leap_year` — lunar leap-month flag (with `is_lunar`)
+  - `time_unknown` — marks the hour pillar as estimated in the header
+  Strict coercion: only exact enum values are forwarded (e.g. only `-1` means
+  Dongji; anything else falls back to the Ipchun default).
+- `X-Channel: mcp` request header — channel marker for backend usage
+  analytics (`mcp_usage_log`). Older backends ignore it.
+
 ## v0.6.1 — 2026-06-11
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "@dangamsoft/cafe-mcp",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "mcpName": "io.github.dangamsoft/cafe-mcp",
   "description": "Korean Saju (Four Pillars / 사주명리) MCP server — 5 free birth-chart analysis tools (chart, five-elements, gyeokguk, yin-yang/climate, yongshin candidates) powered by the CAFE engine.",
   "type": "module",
