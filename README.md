@@ -73,7 +73,7 @@ All tools take `birth` (`YYYYMMDDHHMM`) and `gender` (0 = female, 1 = male);
 `name` and `is_lunar` are optional.
 
 > The AI-selected final Yongshin (91.1%-accuracy classifier), full Yongshin
-> report, NCODE personality profile and AI naming are part of the paid
+> report, NCODE personality profile and AI naming are part of the
 > 24Plus service and are **not** exposed here.
 
 **Custom backend:** set `CAFE_MCP_API_URL` (the server POSTs to
@@ -125,15 +125,6 @@ structure it operates on.
 
 ---
 
-## Roadmap
-
-- **v0.5.x** — Public ontology + name reservation
-- **v0.6.0** — Local (stdio) MCP server with 5 free tools *(current)*
-- **v0.7+** — Hosted/remote server with OAuth + paid tiers (AI-selected
-  yongshin, full report, NCODE), multi-language explanation layers
-
----
-
 ## Note on East Asian Myeongli traditions
 
 This MCP focuses on the Korean Myeongli (사주명리학) tradition, which
@@ -171,3 +162,7 @@ specializing in classical East Asian knowledge systems.
 
 The CAFE inference engine, scoring algorithms, ML model weights, and
 interpretation templates remain proprietary.
+
+---
+
+> 더 깊은 분석(AI 선정 용신 · 전체 리포트)은 https://24plus.ai.kr

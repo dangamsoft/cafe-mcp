@@ -14,7 +14,7 @@
     "url": "https://github.com/dangamsoft/cafe-mcp/issues"
   },
   "bin": {
-    "cafe-mcp": "./index.js"
+    "cafe-mcp": "index.js"
   },
   "files": [
     "index.js",

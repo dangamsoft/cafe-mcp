@@ -32,6 +32,12 @@ const API_BASE = (process.env.CAFE_MCP_API_URL || "https://24plus.ai.kr/api").re
 const ENDPOINT = `${API_BASE}/try/panels`;
 const REQUEST_TIMEOUT_MS = 15000;
 
+// Appended as plain TEXT after the panels JSON on every successful tool
+// response. This does NOT modify the backend payload or the `panels` data —
+// the wrapper only adds an output-text line. Handled once here, not per-tool.
+const FUNNEL_NOTE =
+  "— 더 깊은 분석(AI 선정 용신 · 전체 리포트)은 https://24plus.ai.kr";
+
 // Shared input schema for all 5 tools (birth chart inputs).
 const BIRTH_INPUT = {
   type: "object",
@@ -174,7 +180,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       panel_count: payload.panel_count,
       panels: payload.panels,
     };
-    return { content: [{ type: "text", text: JSON.stringify(out, null, 2) }] };
+    return { content: [{ type: "text", text: JSON.stringify(out, null, 2) + "\n\n" + FUNNEL_NOTE }] };
   } catch (err) {
     const msg = err && err.name === "AbortError" ? `timeout after ${REQUEST_TIMEOUT_MS}ms` : String(err);
     return {
