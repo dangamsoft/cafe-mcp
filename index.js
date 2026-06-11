@@ -104,7 +104,7 @@ const TOOLS = [
 const TOOL_BY_NAME = new Map(TOOLS.map((t) => [t.name, t]));
 
 const server = new Server(
-  { name: "cafe-mcp", version: "0.6.0" },
+  { name: "cafe-mcp", version: "0.6.1" },
   { capabilities: { tools: {} } }
 );
 

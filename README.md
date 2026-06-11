@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![W3C OWL 2](https://img.shields.io/badge/W3C-OWL%202-orange.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Ontology](https://img.shields.io/badge/Ontology-1%2C711%20triples-brightgreen.svg)](./ontology/)
-[![Version](https://img.shields.io/badge/Version-0.6.0-green.svg)](#)
+[![Version](https://img.shields.io/badge/Version-0.6.1-green.svg)](#)
 
 > ✅ **v0.6.0** — The MCP server is live. A local (stdio) server exposing
 > **5 free birth-chart tools** — `saju_chart`, `ohaeng_balance`, `gyeokguk`,

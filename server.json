@@ -1,0 +1,20 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.dangamsoft/cafe-mcp",
+  "description": "Korean Saju (Four Pillars) MCP server with 5 free birth-chart analysis tools.",
+  "repository": {
+    "url": "https://github.com/dangamsoft/cafe-mcp",
+    "source": "github"
+  },
+  "version": "0.6.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@dangamsoft/cafe-mcp",
+      "version": "0.6.1",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

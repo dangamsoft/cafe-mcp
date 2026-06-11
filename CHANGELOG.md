@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.1 — 2026-06-11
+
+### Added
+- `mcpName: io.github.dangamsoft/cafe-mcp` in `package.json` for Official MCP
+  Registry ownership verification.
+- `server.json` (registry metadata) for publishing to registry.modelcontextprotocol.io.
+
+### Fixed
+- `bin` value `./index.js` → `index.js` (npm 11 publish-time validation
+  stripped the `./`-prefixed entry, breaking `npx`).
+
+## v0.6.0 — 2026-06-01
+
+### Added
+- Local (stdio) MCP server (`index.js`) exposing **5 free birth-chart tools** —
+  `saju_chart`, `ohaeng_balance`, `gyeokguk`, `eumyang_johu`,
+  `yongshin_candidates` — forwarding to the 24Plus backend `POST /try/panels`
+  (panel-extracted safe data only; no raw engine output).
+- Published as `@dangamsoft/cafe-mcp` on npm.
+
 ## v0.5.3 — 2026-05-03
 
 ### Fixed
