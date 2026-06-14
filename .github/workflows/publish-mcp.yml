@@ -1,0 +1,83 @@
+name: Publish to MCP Registry
+
+# Publishes server.json to the official registry (registry.modelcontextprotocol.io)
+# via GitHub OIDC — no secrets required. The npm package @dangamsoft/cafe-mcp is
+# published out-of-band; the registry only verifies that the version referenced in
+# server.json is already live on npm, so publish to npm BEFORE pushing the tag.
+#
+# Trigger:  git tag v0.6.3 && git push origin v0.6.3   (or run manually from Actions)
+#
+# validate job runs on every PR (that touches server.json/this workflow) and on
+# manual dispatch — schema-checks server.json WITHOUT publishing. The publish job
+# only runs on a v* tag push, and only after validate passes.
+
+on:
+  push:
+    tags: ["v*"]        # e.g. v0.6.3
+  pull_request:
+    paths:
+      - "server.json"
+      - ".github/workflows/publish-mcp.yml"
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Validate server.json
+        run: ./mcp-publisher validate ./server.json
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: validate
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      id-token: write   # required for GitHub OIDC auth to the registry
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # --- Optional: fully automate npm publishing too ---
+      # The npm package is currently published manually. To have CI publish it,
+      # uncomment this block and add an NPM_TOKEN repository secret.
+      #
+      # - uses: actions/setup-node@v5
+      #   with:
+      #     node-version: "lts/*"
+      #     registry-url: "https://registry.npmjs.org"
+      # - run: npm ci
+      # - run: npm publish --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      # Keep server.json (and its npm package ref) in sync with the pushed tag.
+      # The matching npm version MUST already be live on npm for publish to pass.
+      - name: Sync server.json version to tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          jq --arg v "$VERSION" '.version = $v | .packages |= map(.version = $v)' server.json > server.tmp
+          mv server.tmp server.json
+          echo "server.json set to version $VERSION"
+
+      - name: Authenticate (GitHub OIDC)
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        run: ./mcp-publisher publish

@@ -1,5 +1,7 @@
 # cafe-mcp
 
+<!-- mcp-name: io.github.dangamsoft/cafe-mcp -->
+
 > **CAFE = Cross-weighted Analysis of the Five Elements**
 >
 > Public OWL ontology for Korean Saju (사주명리학),
