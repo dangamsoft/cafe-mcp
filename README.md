@@ -5,13 +5,13 @@
 > **CAFE = Cross-weighted Analysis of the Five Elements**
 >
 > Public OWL ontology for Korean Saju (사주명리학),
-> with planned MCP integration via the CAFE engine.
+> with live MCP integration (v0.6.0) via the CAFE engine.
 
-[![MCP](https://img.shields.io/badge/MCP-planned-blue.svg)](https://modelcontextprotocol.io)
+[![MCP](https://img.shields.io/badge/MCP-live%20v0.6.3-brightgreen.svg)](https://modelcontextprotocol.io)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![W3C OWL 2](https://img.shields.io/badge/W3C-OWL%202-orange.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Ontology](https://img.shields.io/badge/Ontology-1%2C711%20triples-brightgreen.svg)](./ontology/)
-[![Version](https://img.shields.io/badge/Version-0.6.2-green.svg)](#)
+[![Version](https://img.shields.io/badge/Version-0.6.3-green.svg)](#)
 
 > ✅ **v0.6.0** — The MCP server is live. A local (stdio) server exposing
 > **5 free birth-chart tools** — `saju_chart`, `ohaeng_balance`, `gyeokguk`,
@@ -159,7 +159,7 @@ specializing in classical East Asian knowledge systems.
 
 ## License
 
-- **Code** (when published in v0.6.0): Apache 2.0
+- **Code** (live since v0.6.0): Apache 2.0
 - **Public OWL ontology** ([`ontology/`](./ontology/)): CC BY 4.0
 
 The CAFE inference engine, scoring algorithms, ML model weights, and

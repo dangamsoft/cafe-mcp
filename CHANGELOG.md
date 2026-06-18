@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.6.3 — 2026-06-18
+
+### Fixed
+- **`server.json` install metadata** — added `runtimeHint: "npx"` and
+  `registryBaseUrl: "https://registry.npmjs.org"` to the npm package entry so
+  installers/indexers (Glama, registry) can resolve and launch the stdio
+  package. Fixes Glama "cannot be installed" + empty-tools indexing.
+
+### Changed
+- README: corrected stale "planned MCP integration" wording and the
+  `MCP-planned` badge to reflect the live server (v0.6.3).
+- LICENSE: filled the Apache-2.0 copyright placeholder (`Dangamsoft`) for
+  cleaner SPDX/license detection.
+
 ## v0.6.2 — 2026-06-11
 
 ### Added
