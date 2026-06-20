@@ -98,38 +98,38 @@ const TOOLS = [
     name: "saju_chart",
     preset: "saju",
     description:
-      "Korean Saju (Four Pillars / 四柱八字) birth chart. Returns the four pillars (year/month/day/hour), heavenly stems & earthly branches, and the Ten Gods / Spirit-Star overview. Use for 'show me my saju / birth chart'.",
+      "Korean Saju (Four Pillars / 四柱八字) natal chart with annotations. Returns the four pillars (year/month/day/hour) with their heavenly stems and earthly branches, the Ten Gods (十神) mapping, the five-element ratios, plus the Spirit Stars (神殺 / 신살) and Twelve Life Stages (十二運星 / 십이운성) annotations on each pillar. The foundational reading other tools build on. Use for 'show me my saju', 'what's my birth chart', '내 사주 봐줘'.",
   },
   {
     name: "ohaeng_balance",
     preset: "saju_ohang",
     description:
-      "Five Elements (五行 / 오행: Wood·Fire·Earth·Metal·Water) distribution of the birth chart, including hidden-stem weighting. Use for 'analyze my five elements / element balance'.",
+      "Five Elements (五行 / 오행: Wood·Fire·Earth·Metal·Water) distribution of the natal chart. Computes each element's percentage including hidden-stem (지장간) weighting, then reports the dominant and the weakest element. Use to gauge elemental balance and excess/lack. Use for 'analyze my five elements', 'which element am I missing', '오행 분석'.",
   },
   {
     name: "gyeokguk",
     preset: "gyeokguk",
     description:
-      "Gyeokguk (格局, chart structure/pattern) determination with the supporting chart table. Use for 'what is my gyeokguk / chart pattern'.",
+      "Gyeokguk (格局, chart structure/pattern) determination. Reads the chart's governing structure from the day-master and month-branch by classical Myeongli rules. Returns the named pattern with its true/quasi grade (e.g. 편인격 · 가격), the body strength (신강/신약), supporting sub-patterns (e.g. 식상생재), the favorable element (yongshin), and the five-element distribution behind the judgment. Use for 'what is my gyeokguk', 'what's my chart pattern / structure', '내 격국이 뭐야'.",
   },
   {
     name: "eumyang_johu",
     preset: "eumyang",
     description:
-      "Yin-Yang (陰陽 / 음양) and Climate (調候 / 조후, hot-cold-wet-dry) balance diagnostic, including how it shifts across major/yearly fortune periods. Use for 'yin-yang / climate balance'.",
+      "Yin-Yang (陰陽 / 음양) and Climate (調候 / 조후: hot-cold-wet-dry) balance diagnostic. Reports the yin-yang ratio, the warm/cold·dry/wet tendency, and how each balance shifts across both major (대운) and yearly (세운) fortune periods. Use for 'is my chart hot or cold', 'my yin-yang / climate balance', '조후 분석'.",
   },
   {
     name: "yongshin_candidates",
     preset: "yongshin_candidates",
     description:
-      "Classical Yongshin (用神, favorable element) CANDIDATES — the 5 traditional types (Eokbu / Byeongyak / Tonggwan / Johu / Gyeokguk) and their candidate elements. This is the classical-theory view; it does NOT include an AI-selected final yongshin or confidence scores. Use for 'what are my yongshin candidates'.",
+      "Classical Yongshin (用神, favorable element) candidates. Returns all five traditional derivation methods — Eokbu (억부) / Byeongyak (병약) / Tonggwan (통관) / Johu (조후) / Gyeokguk (격국) — with each method's candidate element(s) and primary pick. Does NOT include an AI-selected final yongshin or confidence scores (those are part of the full 24Plus service). Use for 'what are my yongshin candidates', 'which element favors me', '용신 후보'.",
   },
 ];
 
 const TOOL_BY_NAME = new Map(TOOLS.map((t) => [t.name, t]));
 
 const server = new Server(
-  { name: "cafe-mcp", version: "0.6.3" },
+  { name: "cafe-mcp", version: "0.6.4" },
   { capabilities: { tools: {} } }
 );
 

@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.4 — 2026-06-20
+
+### Added
+- **saju_chart** now includes Spirit Stars (神殺 / 신살) and Twelve Life Stages
+  (十二運星 / 십이운성) annotations on each pillar, alongside the existing pillars,
+  Ten Gods, and five-element ratios. (Backend: `saju` preset gains the
+  `anal_sinsal` panel via `bas_sal`.)
+
+### Changed
+- Improved all five tool descriptions for clarity and tool-selection accuracy
+  (TDQS) — each now states its actual returned fields and adds Korean/English
+  trigger phrases.
+
 ## v0.6.3 — 2026-06-18
 
 ### Fixed

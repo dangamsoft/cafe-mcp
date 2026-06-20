@@ -7,13 +7,13 @@
     "url": "https://github.com/dangamsoft/cafe-mcp",
     "source": "github"
   },
-  "version": "0.6.3",
+  "version": "0.6.4",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@dangamsoft/cafe-mcp",
-      "version": "0.6.3",
+      "version": "0.6.4",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
