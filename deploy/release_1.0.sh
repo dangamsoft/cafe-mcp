@@ -70,7 +70,7 @@ if ask "[3/6] npm 배포 @dangamsoft/cafe-mcp@${VERSION} + git 태그 할까요?
   grep -q "\"version\": \"${VERSION}\"" package.json || die "package.json 버전이 ${VERSION} 아님"
   npm test
   npm whoami >/dev/null 2>&1 || die "npm 로그인 필요: npm login 후 다시 실행"
-  if npm view "@dangamsoft/cafe-mcp@${VERSION}" version >/dev/null 2>&1; then
+  if [ -n "$(npm view "@dangamsoft/cafe-mcp@${VERSION}" version 2>/dev/null)" ]; then
     echo "  이미 배포된 버전 → publish 생략"
   else
     npm publish --access public
