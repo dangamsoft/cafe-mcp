@@ -16,7 +16,7 @@
 FROM node:20-slim
 
 # Pin to the published release Glama is listing. Bump on each new version.
-ENV CAFE_MCP_VERSION=1.0.1
+ENV CAFE_MCP_VERSION=1.0.2
 
 # Optional: override the backend base URL. Default (baked into the package)
 # is https://24plus.ai.kr/api — the server POSTs to ${CAFE_MCP_API_URL}/try/panels.

@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.2 (2026-09-27)
+
+Directory metadata only. No change to tools, inputs or outputs (contract stays 1.0).
+
+- Every tool now also carries `annotations.title` and `destructiveHint: false` (required by the Claude connectors directory).
+- The daily-cap error no longer suggests running locally (the local package uses the same engine).
+- `PRIVACY.md` added and shipped in the package.
+- `glama.json` gains its `$schema`.
+
 ## v1.0.1 (2026-09-27)
 
 Remote server load guard. No change to tools, inputs or outputs (contract stays 1.0).

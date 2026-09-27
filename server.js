@@ -257,7 +257,7 @@ export function createServer({ fetchImpl = globalThis.fetch, apiBase = process.e
         description: t.description,
         inputSchema: BIRTH_INPUT,
         outputSchema: OUTPUT_SHAPE,
-        annotations: { readOnlyHint: true, openWorldHint: true, idempotentHint: true },
+        annotations: { title: t.title, readOnlyHint: true, destructiveHint: false, openWorldHint: true, idempotentHint: true },
       },
       async (args) => {
         const mapped = toBackendBody(args, t.preset);
@@ -299,7 +299,7 @@ export function createServer({ fetchImpl = globalThis.fetch, apiBase = process.e
       description: "Korean manse-ryeok (萬歲曆) calendar for a month or a single day: each day's pillar (日辰), month and year pillars, lunar date, solar term (節氣) with its exact start time (Korea time) when one falls on that day, 손없는날 and 황도일 flags. No birth data needed. Use for 'what is today's day pillar', '이번 달 손없는날', '2027년 2월 일진'.",
       inputSchema: CALENDAR_INPUT,
       outputSchema: CALENDAR_OUTPUT,
-      annotations: { readOnlyHint: true, openWorldHint: true, idempotentHint: true },
+      annotations: { title: "Manse-ryeok calendar (day pillars)", readOnlyHint: true, destructiveHint: false, openWorldHint: true, idempotentHint: true },
     },
     async (args) => {
       const q = parseCalendarArgs(args);
