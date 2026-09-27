@@ -199,6 +199,14 @@ specializing in classical East Asian knowledge systems. The same engine powers t
 
 ---
 
+## Privacy
+
+The server receives only the tool arguments (birth date and time, sex, calendar options, optional city ID).
+No accounts, no cookies, no conversation text. Birth data is not stored beyond a same-day result cache.
+Full policy: [PRIVACY.md](./PRIVACY.md).
+
+---
+
 ## License
 
 - **Code** (live since v0.6.0): Apache 2.0

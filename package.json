@@ -24,7 +24,8 @@
     "http.js",
     "ontology/cafe-ontology.ttl",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "PRIVACY.md"
   ],
   "engines": {
     "node": ">=18"

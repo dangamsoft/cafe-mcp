@@ -96,7 +96,7 @@ async function handleMcp(req, res) {
     const today = kstDay();
     if (today !== dayKey) { dayKey = today; dayCalls = 0; }
     if (dayCalls >= DAILY_LIMIT) {
-      return send(res, 429, rpcError(-32000, "Daily capacity for the free server is used up. It resets at 00:00 KST; or run it locally with npx -y @dangamsoft/cafe-mcp.", id), { "Retry-After": "3600" });
+      return send(res, 429, rpcError(-32000, "Daily capacity for the free server is used up. It resets at 00:00 KST.", id), { "Retry-After": "3600" });
     }
     if (inFlight >= MAX_CONCURRENT) {
       return send(res, 503, rpcError(-32000, "The engine is busy. Please retry in a few seconds.", id), { "Retry-After": "5" });
