@@ -1,0 +1,28 @@
+# /etc/systemd/system/cafe-mcp-http.service  (cafe-svr)
+# Remote MCP endpoint. Installed by deploy/release_1.0.sh into /opt/cafe-mcp (npm, pinned version).
+# __NODE__ is replaced with the server's node path by the release script.
+[Unit]
+Description=cafe-mcp remote MCP server (Streamable HTTP)
+After=network.target d25mcp-api.service
+
+[Service]
+Type=simple
+ExecStart=__NODE__ /opt/cafe-mcp/node_modules/@dangamsoft/cafe-mcp/http.js
+Environment=PORT=8787
+Environment=HOST=127.0.0.1
+Environment=TRUST_PROXY=1
+Environment=RATE_LIMIT_PER_MIN=120
+# Same server as the backend: call it directly (backend route is /try/panels).
+Environment=CAFE_MCP_API_URL=http://127.0.0.1:9000
+Restart=always
+RestartSec=3
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+StandardOutput=append:/var/log/cafe-mcp-http.log
+StandardError=append:/var/log/cafe-mcp-http.log
+
+[Install]
+WantedBy=multi-user.target

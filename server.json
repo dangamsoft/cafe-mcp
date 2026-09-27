@@ -1,23 +1,29 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.dangamsoft/cafe-mcp",
-  "description": "Korean Saju (Four Pillars) MCP server with 5 free birth-chart analysis tools.",
+  "description": "Saju & BaZi (Four Pillars) birth chart, Day Master, Yongshin and manseryeok calendar. Free, no key.",
   "websiteUrl": "https://24plus.ai.kr",
   "repository": {
     "url": "https://github.com/dangamsoft/cafe-mcp",
     "source": "github"
   },
-  "version": "0.6.4",
+  "version": "1.0.0",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@dangamsoft/cafe-mcp",
-      "version": "0.6.4",
+      "version": "1.0.0",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
       }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.24plus.ai.kr/mcp"
     }
   ]
 }

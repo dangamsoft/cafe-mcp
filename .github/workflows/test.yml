@@ -1,0 +1,30 @@
+name: Test
+
+# Contract tests (mocked backend) on every push/PR, on Node 18/20/22,
+# plus an npm pack check so the published file list stays correct.
+on:
+  push:
+    branches: ["**"]
+  pull_request: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test
+      - name: Package contents
+        run: |
+          npm pack --dry-run 2>&1 | tee pack.txt
+          grep -q "server.js" pack.txt
+          grep -q "http.js" pack.txt
+          grep -q "ontology/cafe-ontology.ttl" pack.txt
+      - name: stdio start
+        run: node test/stdio.smoke.mjs

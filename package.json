@@ -1,8 +1,8 @@
 {
   "name": "@dangamsoft/cafe-mcp",
-  "version": "0.6.4",
+  "version": "1.0.0",
   "mcpName": "io.github.dangamsoft/cafe-mcp",
-  "description": "Korean Saju (Four Pillars / 사주명리) MCP server — 5 free birth-chart analysis tools (chart, five-elements, gyeokguk, yin-yang/climate, yongshin candidates) powered by the CAFE engine.",
+  "description": "Saju & BaZi (Four Pillars of Destiny) MCP server for AI agents: Korean astrology birth chart, Day Master, Five Elements, chart structure (Gyeokguk), favorable element (Yongshin) candidates and a manseryeok calendar with solar-term times. Deterministic CAFE engine, structured output, free, remote (Streamable HTTP) or npx (stdio).",
   "type": "module",
   "license": "Apache-2.0",
   "author": "Dangamsoft",
@@ -15,10 +15,14 @@
     "url": "https://github.com/dangamsoft/cafe-mcp/issues"
   },
   "bin": {
-    "cafe-mcp": "index.js"
+    "cafe-mcp": "index.js",
+    "cafe-mcp-http": "http.js"
   },
   "files": [
     "index.js",
+    "server.js",
+    "http.js",
+    "ontology/cafe-ontology.ttl",
     "README.md",
     "LICENSE"
   ],
@@ -26,17 +30,40 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0"
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25 || ^4.0"
   },
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "mcp-server",
     "saju",
     "bazi",
-    "korean",
     "four-pillars",
+    "four-pillars-of-destiny",
+    "korean-astrology",
+    "chinese-astrology",
+    "day-master",
+    "five-elements",
+    "yongshin",
+    "manseryeok",
+    "lunar-calendar",
+    "solar-terms",
+    "birth-chart",
     "fortune-telling",
+    "astrology",
     "ontology",
-    "cafe-engine"
-  ]
+    "cafe-engine",
+    "structured-output",
+    "streamable-http",
+    "remote-mcp",
+    "claude",
+    "chatgpt"
+  ],
+  "scripts": {
+    "test": "node --test test/contract.test.js",
+    "start": "node index.js",
+    "start:http": "node http.js",
+    "smoke:http": "node test/http.smoke.mjs"
+  }
 }

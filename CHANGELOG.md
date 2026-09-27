@@ -1,5 +1,27 @@
 # Changelog
 
+## v1.0.0 — 2026-09-26
+
+First stable contract ([spec](./docs/MCP_V1_SPEC.md)): tool names, input/output schemas and error codes are frozen until 2.0.
+All tools are free. v0.6 arguments keep working. (0.9.0 was prepared but not published; its changes ship here.)
+
+### Added
+- **Remote server** (`http.js`, bin `cafe-mcp-http`): MCP Streamable HTTP, stateless, JSON responses, per-IP rate limit, `/health`. Hosted at `https://mcp.24plus.ai.kr/mcp`.
+- **`manse_calendar`** tool: day, month and year pillars, lunar dates, solar terms with exact start time (KST), 손없는날 / 황도일 flags for a month or a single day. No birth data needed.
+- **Structured output**: every tool returns `structuredContent` validated by an `outputSchema`
+  (`engine`, `contract`, `tool`, `input_echo`, `basis`, `data.panels`, `links`, `disclaimer`) plus a short text summary.
+- **Input validation** (zod): real calendar dates 1900–2100, ISO `YYYY-MM-DDTHH:mm` or legacy 12 digits.
+- Readable option names: `sex`, `calendar`, `lunar_leap_month`, `rat_hour_rule`, `year_boundary` (legacy `gender`, `is_lunar`, `is_leap_year`, `option1`, `option2` still accepted).
+- Tool `title`s and annotations (`readOnlyHint`, `openWorldHint`, `idempotentHint`).
+- Resource `cafe://ontology` (bundled OWL 2 Turtle) and prompt `full_reading`.
+- Contract tests (`npm test`, mocked backend) and CI on Node 18/20/22 with `npm pack` and stdio checks.
+
+### Changed
+- Errors are stable codes (`invalid_input`, `rate_limited`, `timeout`, `backend_unavailable`), returned with `isError` and a JSON text block `{"error": {...}}` (no `structuredContent`, so clients that validate output schemas accept them); backend error bodies are no longer forwarded.
+- Moved to `McpServer.registerTool`; server factory in `server.js`, `index.js` is the stdio entry.
+- Version is read from `package.json` (single source).
+- Removed the marketing line appended to raw JSON; the web link now lives in `links.web` and the text summary.
+
 ## v0.6.4 — 2026-06-20
 
 ### Added
