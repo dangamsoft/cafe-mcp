@@ -16,8 +16,8 @@
 set -e
 SSH_HOST="cafe-svr"
 DOMAIN="mcp.24plus.ai.kr"
-VERSION="1.0.0"
 MCP_DIR="/c/Project/cafe-mcp"
+VERSION=$(cd "$MCP_DIR" && node -p "require('./package.json').version")   # package.json 기준
 ENGINE_SRC="/c/Project/d25engine/src"
 BE_DIR="/c/Project/d25mcp_api"
 WEB_DIR="/c/Project/24plus-web"
@@ -77,7 +77,7 @@ if ask "[3/6] npm 배포 @dangamsoft/cafe-mcp@${VERSION} + git 태그 할까요?
   fi
   ok "npm ${VERSION}"
   git add -A
-  git commit -m "release: v${VERSION} remote Streamable HTTP, manse_calendar, stable contract
+  git commit -m "release: v${VERSION}
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01TbnYWzvGrN1yjx4menkfjr" || echo "  커밋할 변경 없음"
@@ -93,8 +93,14 @@ if ask "[4/6] 원격 MCP 서버(${DOMAIN}) 설치할까요?"; then
   echo "  node: $NODE_BIN ($NODE_VER)"
   case "$NODE_VER" in v1[89]*|v2*) ;; *) die "서버 Node 18 이상 필요 ($NODE_VER)";; esac
   NPM_BIN="$(dirname "$NODE_BIN")/npm"
+  # npm 게시 직후엔 레지스트리 반영이 몇 분 늦을 수 있다: 최대 5분 대기
+  for i in $(seq 1 30); do
+    [ "$(curl -s -m 10 https://registry.npmjs.org/@dangamsoft%2fcafe-mcp/${VERSION} | grep -o '"version":"[^"]*"' | head -1)" = "\"version\":\"${VERSION}\"" ] && break
+    [ "$i" = 1 ] && echo "  npm 레지스트리에 ${VERSION} 반영 대기 중..."
+    sleep 10
+  done
 
-  ssh "$SSH_HOST" "mkdir -p /opt/cafe-mcp && cd /opt/cafe-mcp && PATH=$(dirname "$NODE_BIN"):\$PATH $NPM_BIN install --omit=dev --no-audit --no-fund @dangamsoft/cafe-mcp@${VERSION} >/dev/null"
+  ssh "$SSH_HOST" "mkdir -p /opt/cafe-mcp && cd /opt/cafe-mcp && PATH=$(dirname "$NODE_BIN"):\$PATH $NPM_BIN install --prefer-online --registry=https://registry.npmjs.org/ --omit=dev --no-audit --no-fund @dangamsoft/cafe-mcp@${VERSION} >/dev/null"
   ssh "$SSH_HOST" "test -f /opt/cafe-mcp/node_modules/@dangamsoft/cafe-mcp/http.js" || die "npm 설치 실패"
 
   # systemd: 실제 node 경로로 서비스 파일 생성 (node 가 /root 아래면 ProtectHome 끔)
@@ -108,8 +114,10 @@ if ask "[4/6] 원격 MCP 서버(${DOMAIN}) 설치할까요?"; then
   ssh "$SSH_HOST" "curl -s localhost:8787/health" | grep -q "\"version\":\"${VERSION}\"" || die "로컬 health 실패: ssh $SSH_HOST 'journalctl -u cafe-mcp-http -n 30 --no-pager'"
   ok "cafe-mcp-http 가동 (127.0.0.1:8787)"
 
-  # nginx
-  if ssh "$SSH_HOST" "test -d /etc/nginx/sites-available"; then
+  # nginx: 이미 TLS 가 붙은 설정이면 건드리지 않는다 (덮어쓰면 certbot 이 넣은 ssl 줄이 사라짐)
+  if ssh "$SSH_HOST" "grep -qs ssl_certificate /etc/nginx/sites-available/${DOMAIN} /etc/nginx/conf.d/${DOMAIN}.conf"; then
+    echo "  nginx: 기존 설정(TLS 포함) 유지"
+  elif ssh "$SSH_HOST" "test -d /etc/nginx/sites-available"; then
     scp -q "$MCP_DIR/deploy/nginx-mcp.conf" "$SSH_HOST:/etc/nginx/sites-available/${DOMAIN}"
     ssh "$SSH_HOST" "ln -sf /etc/nginx/sites-available/${DOMAIN} /etc/nginx/sites-enabled/${DOMAIN}"
   else

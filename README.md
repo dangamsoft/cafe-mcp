@@ -7,12 +7,12 @@ Give Claude, ChatGPT, Cursor or any MCP client a birth date and time. cafe-mcp r
 Day Master, Five Elements balance, chart structure, favorable-element candidates and a manseryeok (만세력) calendar
 as **structured, reproducible JSON** from the CAFE engine. Your AI writes the reading in the user's language.
 
-[![MCP](https://img.shields.io/badge/MCP-live%20v1.0.0-brightgreen.svg)](https://modelcontextprotocol.io)
+[![MCP](https://img.shields.io/badge/MCP-live%20v1.0.1-brightgreen.svg)](https://modelcontextprotocol.io)
 [![Remote](https://img.shields.io/badge/Remote-mcp.24plus.ai.kr-blue.svg)](#quick-start)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![W3C OWL 2](https://img.shields.io/badge/W3C-OWL%202-orange.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Ontology](https://img.shields.io/badge/Ontology-1%2C711%20triples-brightgreen.svg)](./ontology/)
-[![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](#)
 
 > **Why not just ask the LLM?** A general model improvises the chart: the same birth data gives a different
 > Day Master on different days, and solar-term boundaries, hidden stems and luck cycles are routinely wrong.

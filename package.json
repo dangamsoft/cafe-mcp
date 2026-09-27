@@ -1,6 +1,6 @@
 {
   "name": "@dangamsoft/cafe-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "mcpName": "io.github.dangamsoft/cafe-mcp",
   "description": "Saju & BaZi (Four Pillars of Destiny) MCP server for AI agents: Korean astrology birth chart, Day Master, Five Elements, chart structure (Gyeokguk), favorable element (Yongshin) candidates and a manseryeok calendar with solar-term times. Deterministic CAFE engine, structured output, free, remote (Streamable HTTP) or npx (stdio).",
   "type": "module",
@@ -64,6 +64,7 @@
     "test": "node --test test/contract.test.js",
     "start": "node index.js",
     "start:http": "node http.js",
-    "smoke:http": "node test/http.smoke.mjs"
+    "smoke:http": "node test/http.smoke.mjs",
+    "smoke:guard": "node test/guard.smoke.mjs"
   }
 }

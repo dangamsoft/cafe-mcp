@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.1 (2026-09-27)
+
+Remote server load guard. No change to tools, inputs or outputs (contract stays 1.0).
+
+- `cafe-mcp-http`: tool calls are capped per IP per minute (`RATE_LIMIT_PER_MIN`, default now 20), in flight at once (`MAX_CONCURRENT_CALLS`, default 3, over the cap returns a "busy, retry" error) and per day (`DAILY_CALL_LIMIT`, default 5000, resets 00:00 KST). `initialize`, `tools/list` and `ping` only count toward the per-IP limit.
+- Opening `/mcp` in a browser now redirects to the documentation instead of showing a JSON error.
+- `/health` reports calls in flight and calls today.
+
 ## v1.0.0 — 2026-09-26
 
 First stable contract ([spec](./docs/MCP_V1_SPEC.md)): tool names, input/output schemas and error codes are frozen until 2.0.
