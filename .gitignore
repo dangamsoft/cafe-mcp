@@ -149,3 +149,6 @@ strategy/
 internal/
 _to_delete/
 docs/listing/
+
+# Local backups (2026-10-18)
+*.bak*

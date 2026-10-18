@@ -1,5 +1,34 @@
 # Changelog
 
+## v1.1.0 (2026-10-18)
+
+The remote server at `https://mcp.24plus.ai.kr/mcp` is now the 24PLUS MCP gateway. Same URL, new server.
+
+- **Sign-in required.** claude.ai and ChatGPT connect with OAuth (sign in to 24PLUS once, then allow). Clients without OAuth use a personal key (`mcp_live_...`) from https://24plus.ai.kr/my.
+- **Free plan:** 10 different charts a month, 300 tool calls a month, 20 calls a minute. Charts you have already looked up do not count again.
+- **Tools:** `saju_chart`, `luck_cycles`, `saju_reading_context`, `manse_calendar`, `find_dates_by_pillars`, `find_birthplace`, `lookup_term`, `search_classics`, `read_classic`. The engine judgments `chart_structure`, `useful_element` and `luck_index` move to the Plus plan (launching soon).
+- Removed from the free server: `gyeokguk`, `yongshin_candidates`, `ohaeng_balance`, `eumyang_johu` (their content is in `saju_chart` and the Plus tools).
+- The npm package `@dangamsoft/cafe-mcp` (stdio) is deprecated and no longer listed in `server.json`. Use the remote URL.
+
+## v1.0.4 (2026-09-27)
+
+Births anywhere in the world. Contract stays 1.0: optional inputs only.
+
+- New optional `longitude` with any IANA `timezone`: the birth clock time is converted with the zone's daylight saving and historical offsets (from the runtime's IANA data), then to local mean solar time (longitude × 4 min). The backend is told not to add the Korea-meridian correction (`option4=false`).
+- `input_echo.timezone` shows the conversion, e.g. `America/New_York UTC-4 DST → local solar 11:04 (-56 min)`.
+- A non-Korean timezone without `longitude` (or `loc`) is rejected with `field: "longitude"`; lunar dates outside Korea must be given as solar dates.
+- Unchanged without these fields: Korea time with the usual 30-minute correction.
+- Needs backend `/try/panels` with the `option4` field (d25mcp_api handlers/try_handler.py, 2026-09-27).
+
+## v1.0.3 (2026-09-27)
+
+Readability for global clients. Contract stays 1.0: only optional fields were added.
+
+- Chart tools return an English text summary first; the Korean engine basis follows it. New optional fields `summary_en` and `highlights` (pillars, Day Master, Ten Gods, structure, element ratios, yin-yang and climate states, method votes) in English.
+- Five Elements basis is labelled everywhere: `weighted` (hidden stems included, as in `ohaeng_balance`) and `surface` (eight visible characters, as used by `gyeokguk`). `saju_chart` shows both.
+- `gyeokguk` explains the structure: which pillar position the engine took it from (month, hour or year stem, or the month branch), plus the Yang Blade / Prosperity naming and Kui Gang note. It also fetches the chart panels for this (cached by the backend per day).
+- `manse_calendar`: solar terms get `name_en`; on the 12 month-starting terms (節) a `pillars_change` object gives the exact switch time and the month (and at Lichun, year) pillar that applies before it.
+
 ## v1.0.2 (2026-09-27)
 
 Directory metadata only. No change to tools, inputs or outputs (contract stays 1.0).

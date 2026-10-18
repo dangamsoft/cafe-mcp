@@ -58,7 +58,8 @@ test("each tool sends its fixed preset and returns structuredContent", async () 
     assert.equal(r.structuredContent.engine, "cafe");
     assert.deepEqual(r.structuredContent.data.panels, PANEL_OK.panels);
   }
-  assert.deepEqual(calls.map((c) => c.body.preset), FREE_TOOLS.map((t) => t.preset));
+  // gyeokguk also fetches the saju panels (structure position for the rationale)
+  assert.deepEqual(calls.map((c) => c.body.preset), ["saju", "saju_ohang", "gyeokguk", "saju", "eumyang", "yongshin_candidates"]);
   assert.equal(calls[0].headers["X-Channel"], "mcp");
 });
 
@@ -74,8 +75,9 @@ test("errors are stable codes; backend body is never forwarded", async () => {
   assert.equal(errOf(bad).code, "invalid_input");
   assert.equal(errOf(bad).field, "birth");
 
+  // 1.0.4: a non-Korean timezone is accepted with longitude; without it the error names the missing field
   const tz = await client.callTool({ name: "saju_chart", arguments: { birth: "1990-01-15T10:30", sex: "female", timezone: "America/New_York" } });
-  assert.equal(errOf(tz).field, "timezone");
+  assert.equal(errOf(tz).field, "longitude");
 });
 
 test("rate limit maps to rate_limited", async () => {
@@ -122,9 +124,26 @@ test("manse_calendar: fixed calendar preset, public fields only", async () => {
   assert.deepEqual(r.structuredContent.days, [{
     date: "2027-02-04", weekday: "Thu", lunar_date: "2026-12-28", day_pillar: { ko: "갑인", hanja: "甲寅" },
     month_pillar: { ko: "임인", hanja: "壬寅" }, year_pillar: { ko: "정미", hanja: "丁未" },
-    son_eomneun_nal: true, hwangdo_il: true, solar_term: { name: "입춘", time: "2027-02-04 10:46" },
+    son_eomneun_nal: true, hwangdo_il: true, solar_term: { name: "입춘", name_en: "Lichun (Start of Spring)", time: "2027-02-04 10:46" },
+    pillars_change: { at: "2027-02-04 10:46", note: "Lichun starts a new solar month and a new year: births before 10:46 (Korea time) that day take the earlier pillars." },
   }]);
   const all = await client.callTool({ name: "manse_calendar", arguments: { month: "2027-02" } });
   assert.equal(all.structuredContent.days.length, 2);
   assert.ok(!JSON.stringify(all.structuredContent).includes("공망"), "chart-relative fields dropped");
+});
+
+test("1.0.4 birthplace: IANA zone + longitude → local mean time, option4=false", () => {
+  const ny = toBackendBody({ birth: "1990-07-04T12:00", sex: "female", timezone: "America/New_York", longitude: -74.0 }, "saju");
+  assert.equal(ny.body.birth, "199007041104");          // EDT UTC-4 → 16:00Z → -4h56m
+  assert.equal(ny.body.option4, false);
+  assert.match(ny.echo.timezone, /America\/New_York UTC-4 DST/);
+  const seoul88 = toBackendBody({ birth: "1988-07-01T12:00", sex: "male", timezone: "Asia/Seoul", longitude: 127.0 }, "saju");
+  assert.equal(seoul88.body.birth, "198807011028");     // Korea DST 1988 (UTC+10)
+  const plain = toBackendBody({ birth: "1990-01-15T10:30", sex: "male" }, "saju");
+  assert.equal(plain.body.birth, "199001151030");
+  assert.equal(plain.body.option4, undefined);          // unchanged default path
+  assert.equal(toBackendBody({ birth: "1990-07-04T12:00", sex: "male", timezone: "Europe/London" }, "saju").error.field, "longitude");
+  assert.equal(toBackendBody({ birth: "1990-07-04T12:00", sex: "male", timezone: "Mars/Olympus", longitude: 1 }, "saju").error.field, "timezone");
+  const tu = toBackendBody({ birth: "1990-07-04T12:30", sex: "male", timezone: "Europe/London", longitude: -0.1, time_unknown: true }, "saju");
+  assert.equal(tu.body.option4, undefined);             // time unknown: no conversion
 });

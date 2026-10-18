@@ -93,10 +93,12 @@ if ask "[4/6] 원격 MCP 서버(${DOMAIN}) 설치할까요?"; then
   echo "  node: $NODE_BIN ($NODE_VER)"
   case "$NODE_VER" in v1[89]*|v2*) ;; *) die "서버 Node 18 이상 필요 ($NODE_VER)";; esac
   NPM_BIN="$(dirname "$NODE_BIN")/npm"
-  # npm 게시 직후엔 레지스트리 반영이 몇 분 늦을 수 있다: 최대 5분 대기
-  for i in $(seq 1 30); do
-    [ "$(curl -s -m 10 https://registry.npmjs.org/@dangamsoft%2fcafe-mcp/${VERSION} | grep -o '"version":"[^"]*"' | head -1)" = "\"version\":\"${VERSION}\"" ] && break
-    [ "$i" = 1 ] && echo "  npm 레지스트리에 ${VERSION} 반영 대기 중..."
+  # npm 게시 직후엔 레지스트리 반영이 몇 분 늦을 수 있다: 서버의 npm 이 실제로 찾을 수 있을 때까지 최대 10분 대기
+  for i in $(seq 1 60); do
+    GOT=$(ssh "$SSH_HOST" "PATH=$(dirname "$NODE_BIN"):\$PATH $NPM_BIN view @dangamsoft/cafe-mcp@${VERSION} version --prefer-online --registry=https://registry.npmjs.org/ 2>/dev/null" | tr -d '[:space:]')
+    [ "$GOT" = "${VERSION}" ] && break
+    [ "$i" = 1 ] && echo "  npm 레지스트리에 ${VERSION} 반영 대기 중 (최대 10분)..."
+    [ "$i" = 60 ] && die "10분이 지나도 서버에서 ${VERSION} 을 못 찾음. 잠시 뒤 4단계만 다시 실행"
     sleep 10
   done
 

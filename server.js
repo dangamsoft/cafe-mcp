@@ -16,6 +16,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { summarize, SOLAR_TERM, MONTH_START_TERMS } from "./summary.js";
+import { toLocalMeanTime, isValidTimeZone, fmtOffset } from "./localtime.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const PKG = JSON.parse(readFileSync(join(HERE, "package.json"), "utf8"));
@@ -46,8 +48,9 @@ export const BIRTH_INPUT = {
   gender: z.union([z.literal(0), z.literal(1)]).optional().describe("Legacy form of sex: 0 female, 1 male."),
   calendar: z.enum(["solar", "lunar"]).optional().describe("Calendar of the birth date. Default solar."),
   lunar_leap_month: z.boolean().optional().describe("Lunar leap month (윤달). Only with calendar=lunar."),
-  timezone: z.string().optional().describe("IANA time zone of the birthplace. Asia/Seoul is supported directly; for births elsewhere pass 'loc'."),
-  loc: z.number().int().optional().describe("24Plus world-city ID for births outside Korea."),
+  timezone: z.string().optional().describe("IANA time zone of the birthplace, e.g. America/New_York, Europe/London, Asia/Seoul. Daylight saving and historical offsets are applied. With longitude, the time is converted to local solar time (1.0.4+)."),
+  longitude: z.number().min(-180).max(180).optional().describe("Birthplace longitude in degrees, east positive, west negative (New York -74.0, London -0.1, Seoul 127.0). Required with a non-Korean timezone."),
+  loc: z.number().int().optional().describe("Legacy: 24Plus world-city ID. Prefer timezone + longitude."),
   time_unknown: z.boolean().optional().describe("Birth time unknown; the hour pillar is marked as estimated."),
   rat_hour_rule: z.enum(["late", "early"]).optional().describe("Rat-hour (子時) rule: 'late' 야자시 (default) or 'early' 조자시."),
   year_boundary: z.enum(["lichun", "winter_solstice"]).optional().describe("Year pillar boundary: 'lichun' 입춘 (default) or 'winter_solstice' 동지."),
@@ -67,10 +70,19 @@ export function toBackendBody(args, preset) {
   if (args.sex) gender = args.sex === "male" ? 1 : 0;
   else if (args.gender === 0 || args.gender === 1) gender = args.gender;
   else return { error: invalid("sex", "Required: 'female' or 'male'.") };
-  if (args.timezone && !KOREA_TZ.has(args.timezone) && !Number.isInteger(args.loc)) {
-    return { error: invalid("timezone", "Births outside Korea need 'loc' (24Plus world-city ID). Other IANA time zones are not accepted yet, to avoid a silently wrong chart.") };
-  }
   const lunar = args.calendar ? args.calendar === "lunar" : Boolean(args.is_lunar);
+  // Birthplace time (1.0.4): IANA zone + longitude → local mean solar time, sent with option4=false.
+  const tz = typeof args.timezone === "string" ? args.timezone.trim() : "";
+  const hasLng = typeof args.longitude === "number" && Number.isFinite(args.longitude);
+  let lt = null;
+  if (tz && !isValidTimeZone(tz)) return { error: invalid("timezone", "Unknown IANA time zone. Example: America/New_York.") };
+  if (tz && !KOREA_TZ.has(tz) && !hasLng && !Number.isInteger(args.loc)) {
+    return { error: invalid("longitude", "Births outside Korea need the birthplace longitude (e.g. New York -74.0) so the time can be converted to local solar time.") };
+  }
+  if ((tz || hasLng) && !Number.isInteger(args.loc)) {
+    if (lunar && tz && !KOREA_TZ.has(tz)) return { error: invalid("calendar", "For births outside Korea give the solar (Gregorian) date.") };
+    if (hasLng && !args.time_unknown && !lunar) lt = toLocalMeanTime(birth, tz || "Asia/Seoul", args.longitude);
+  }
   return {
     body: {
       preset,
@@ -83,10 +95,11 @@ export function toBackendBody(args, preset) {
       option2: args.year_boundary ? (args.year_boundary === "winter_solstice" ? -1 : 0) : (args.option2 === -1 ? -1 : 0),
       time_unknown: Boolean(args.time_unknown),
       ...(Number.isInteger(args.loc) ? { loc: args.loc } : {}),
+      ...(lt ? { birth: lt.lmt, option4: false } : {}),
     },
     echo: {
       birth, calendar: lunar ? "lunar" : "solar", sex: gender === 1 ? "male" : "female",
-      timezone: Number.isInteger(args.loc) ? `loc:${args.loc}` : "Asia/Seoul",
+      timezone: Number.isInteger(args.loc) ? `loc:${args.loc}` : lt ? `${tz || "Asia/Seoul"} ${fmtOffset(lt.offsetMin)}${lt.dst ? " DST" : ""} → local solar ${lt.lmt.slice(8, 10)}:${lt.lmt.slice(10, 12)} (${lt.lmtShiftMin >= 0 ? "+" : ""}${lt.lmtShiftMin} min)` : "Asia/Seoul",
     },
   };
 }
@@ -102,7 +115,9 @@ export const OUTPUT_SHAPE = {
   contract: z.string(),
   tool: z.string(),
   input_echo: z.object({ birth: z.string(), calendar: z.string(), sex: z.string(), timezone: z.string() }),
-  basis: z.string().optional().describe("Chart basis text ([기본정보]): pillars, calendar/season basis, luck-cycle start."),
+  basis: z.string().optional().describe("Chart basis text ([기본정보], Korean): pillars, calendar/season basis, luck-cycle start."),
+  summary_en: z.string().optional().describe("English summary of this result (1.0.3+)."),
+  highlights: z.any().optional().describe("Key facts in English: pillars, Day Master, structure with rationale, element ratios with their basis, method votes (1.0.3+)."),
   data: z.object({ label: z.string().optional(), panel_count: z.number().optional(), panels: z.any() }),
   links: z.object({ web: z.string() }),
   disclaimer: z.string(),
@@ -162,7 +177,12 @@ const DAY_SHAPE = z.object({
   day_pillar: z.object({ ko: z.string(), hanja: z.string() }),
   month_pillar: z.object({ ko: z.string(), hanja: z.string() }).optional().describe("Month pillar of that day; changes on the solar-term (節) day."),
   year_pillar: z.object({ ko: z.string(), hanja: z.string() }).optional().describe("Year pillar of that day; changes at 입춘 (Lichun)."),
-  solar_term: z.object({ name: z.string(), time: z.string().optional().describe("Exact start, 'YYYY-MM-DD HH:mm' in Korea time (UTC+9).") }).optional(),
+  solar_term: z.object({ name: z.string(), name_en: z.string().optional(), time: z.string().optional().describe("Exact start, 'YYYY-MM-DD HH:mm' in Korea time (UTC+9).") }).optional(),
+  pillars_change: z.object({
+    at: z.string().optional(),
+    before: z.object({ month_pillar: z.object({ ko: z.string(), hanja: z.string() }).optional(), year_pillar: z.object({ ko: z.string(), hanja: z.string() }).optional() }).optional(),
+    note: z.string(),
+  }).optional().describe("On a month-starting solar term (節) day the month pillar (and at Lichun the year pillar) changes at the exact time; the day's month_pillar/year_pillar apply from that time, 'before' applies earlier that day."),
   holiday: z.string().optional(),
   son_eomneun_nal: z.boolean().describe("손없는날: traditional day free of wandering spirits, used for moving house."),
   hwangdo_il: z.boolean().describe("황도일: traditionally auspicious day."),
@@ -209,7 +229,7 @@ export function parseCalendarArgs(args, now = new Date()) {
 }
 
 /** backend fort_calendar row → public day object (drops chart-relative fields) */
-export function toDay(row) {
+export function toDay(row, prevRow) {
   const key = String(row["날짜키"] || "");
   const [y, mo, d] = key.split("-").map(Number);
   const day = {
@@ -224,8 +244,23 @@ export function toDay(row) {
   if (mp) day.month_pillar = mp;
   if (yp) day.year_pillar = yp;
   if (row["음력날짜"]) day.lunar_date = String(row["음력날짜"]);
-  if (row["절기"]) day.solar_term = { name: String(row["절기"]), ...(row["절기시간"] ? { time: String(row["절기시간"]) } : {}) };
+  if (row["절기"]) {
+    const name = String(row["절기"]);
+    day.solar_term = { name, ...(SOLAR_TERM[name] ? { name_en: SOLAR_TERM[name] } : {}), ...(row["절기시간"] ? { time: String(row["절기시간"]) } : {}) };
+  }
   if (row["공휴일"]) day.holiday = String(row["공휴일"]);
+  if (day.solar_term && MONTH_START_TERMS.has(day.solar_term.name)) {
+    const before = {};
+    const pm = prevRow ? pillar(prevRow["월주"]) : undefined;
+    const py = prevRow ? pillar(prevRow["년주"]) : undefined;
+    if (pm && (!mp || pm.ko !== mp.ko)) before.month_pillar = pm;
+    if (py && (!yp || py.ko !== yp.ko)) before.year_pillar = py;
+    day.pillars_change = {
+      ...(day.solar_term.time ? { at: day.solar_term.time } : {}),
+      ...(Object.keys(before).length ? { before } : {}),
+      note: `${(SOLAR_TERM[day.solar_term.name] || day.solar_term.name).split(" (")[0]} starts a new solar month${day.solar_term.name === "입춘" ? " and a new year" : ""}: births before ${day.solar_term.time ? day.solar_term.time.slice(11) : "the exact time"} (Korea time) that day take the earlier pillars.`,
+    };
+  }
   return day;
 }
 
@@ -263,9 +298,15 @@ export function createServer({ fetchImpl = globalThis.fetch, apiBase = process.e
         const mapped = toBackendBody(args, t.preset);
         if (mapped.error) return errorResult(mapped.error);
 
-        const got = await postPanels(fetchImpl, endpoint, mapped.body);
+        // gyeokguk: the structure's position (격국위치) lives in the saju panels, so fetch both (backend caches per day)
+        const [got, side] = await Promise.all([
+          postPanels(fetchImpl, endpoint, mapped.body),
+          t.name === "gyeokguk" ? postPanels(fetchImpl, endpoint, { ...mapped.body, preset: "saju" }) : Promise.resolve(null),
+        ]);
         if (got.error) return errorResult(got.error);
         const payload = got.payload;
+        let sum = { summary_en: "", highlights: undefined };
+        try { sum = summarize(t.name, payload.panels, { sajuPanels: side && side.payload ? side.payload.panels : undefined }); } catch { /* summary is best effort */ }
 
         const basis = typeof payload.base_info_text === "string" ? payload.base_info_text.trim() : "";
         const structured = {
@@ -274,14 +315,18 @@ export function createServer({ fetchImpl = globalThis.fetch, apiBase = process.e
           tool: t.name,
           input_echo: mapped.echo,
           ...(basis ? { basis } : {}),
+          ...(sum.summary_en ? { summary_en: sum.summary_en } : {}),
+          ...(sum.highlights ? { highlights: sum.highlights } : {}),
           data: { label: payload.preset_label, panel_count: payload.panel_count, panels: payload.panels },
           links: { web: `${WEB}/manse` },
           disclaimer: DISCLAIMER,
         };
         const summary = [
-          basis || `${t.title} for ${mapped.echo.birth} (${mapped.echo.calendar}, ${mapped.echo.sex})`,
+          `${t.title}: ${mapped.echo.birth} (${mapped.echo.calendar}, ${mapped.echo.sex}, ${mapped.echo.timezone})`,
+          ...(sum.summary_en ? [sum.summary_en] : []),
+          ...(basis ? ["", "Engine basis (Korean):", basis] : []),
           "",
-          "Structured result is in structuredContent.data.panels.",
+          "Key facts in English: structuredContent.highlights. Full engine panels (Korean labels): structuredContent.data.panels.",
           `Full readings (final favorable element, reports): ${WEB}`,
         ].join("\n");
         return {
@@ -310,7 +355,7 @@ export function createServer({ fetchImpl = globalThis.fetch, apiBase = process.e
       if (got.error) return errorResult(got.error);
       const panel = (got.payload.panels || []).find((p) => p && p.kind === "fort_calendar");
       const rows = panel && panel.data && Array.isArray(panel.data["캘린더"]) ? panel.data["캘린더"] : [];
-      let days = rows.map(toDay).filter((d) => d.date.startsWith(q.month));
+      let days = rows.map((r, i) => toDay(r, i > 0 ? rows[i - 1] : undefined)).filter((d) => d.date.startsWith(q.month));
       if (q.date) days = days.filter((d) => d.date === q.date);
       if (!days.length) return errorResult({ code: "backend_unavailable", message: `No calendar data for ${q.date || q.month}. Try again shortly.` });
       const structured = {
@@ -318,7 +363,9 @@ export function createServer({ fetchImpl = globalThis.fetch, apiBase = process.e
         links: { web: `${WEB}/manse` }, disclaimer: DISCLAIMER,
       };
       const head = q.date
-        ? `${q.date} (${days[0].weekday}): day pillar ${days[0].day_pillar.ko} ${days[0].day_pillar.hanja}`
+        ? `${q.date} (${days[0].weekday}): day pillar ${days[0].day_pillar.ko} ${days[0].day_pillar.hanja}` +
+          (days[0].solar_term ? `; ${days[0].solar_term.name_en || days[0].solar_term.name} at ${days[0].solar_term.time || "?"} KST` : "") +
+          (days[0].pillars_change ? `. ${days[0].pillars_change.note}` : "")
         : `${q.month}: ${days.length} days, ${days[0].date} ${days[0].day_pillar.ko} to ${days[days.length - 1].date} ${days[days.length - 1].day_pillar.ko}`;
       return {
         content: [{ type: "text", text: `${head}\nStructured result is in structuredContent.days.` }, { type: "text", text: JSON.stringify(days) }],
