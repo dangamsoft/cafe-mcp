@@ -243,8 +243,6 @@ CAFE (Cross-weighted Analysis of the Five Elements)는 단감소프트가 개발
 
 - 6대 고전을 ground-truth corpus로 활용
 - 용신은 여러 이론(억부·조후·병약·통관·격국, 종격 포함)이 후보를 세우고, 고전과 실제 감정 사례로 학습한 모델이 그 안에서 고릅니다.
-- **희용신 일치율 75%**: 학습에 쓰지 않은 사주에서, CAFE 가 제시한 용신·희신 안에 전문가가 정한 용신이 들어 있는 비율입니다. 용신 하나만 맞춰 보면 56%입니다 (2026-10-10 교차검증).
-- The useful element is chosen across several classical methods (support, climate, illness-remedy, mediation, structure including following), which propose candidates, and a model trained on classical and real consultation cases picks among them. **Useful/favorable-element agreement: 75%** of charts not used in training have the expert's useful element within the useful/favorable pair CAFE shows (56% for the single useful element; cross-validated, 2026-10-10).
 - SHAP-based explainability with classical theory alignment
 
 본 공개 온톨로지는 **공통 지식 레이어**입니다. CAFE 엔진의 규칙 엔진, 용신 모델, 교차 검증, SHAP 설명가능성, RAG 해석 시스템은 단감소프트의 독점 자산으로 비공개 유지됩니다.

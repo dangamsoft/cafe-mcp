@@ -77,16 +77,10 @@ The server lists **9 read-only tools**, all free.
 
 Full reference with inputs and example prompts: https://24plus.ai.kr/docs/tools
 
-### About the engine's useful element judgment
+### About the useful element
 
-The useful element (yongshin) is not part of the public tools; it is available through the CAFE Core API.
-CAFE looks at a chart from several classical methods (eokbu/support, johu/climate, byeongyak/illness-remedy,
-tonggwan/mediation, gyeokguk/structure including jonggyeok/following), and a model trained on classical and real
-consultation cases picks among their candidates.
-
-**Useful/favorable-element agreement (희용신 일치율): 75%.** On charts not used in training, the expert's useful element
-is within the useful/favorable pair CAFE gives for 75% of charts; for the single useful element alone it is 56%
-(cross-validated, 2026-10-10).
+The useful element (yongshin) and other engine judgments are not part of the public tools; they are available
+through the CAFE Core API under a business agreement.
 
 Values come back in Korean with Hanja; pass `lang="en"` for English term names.
 
