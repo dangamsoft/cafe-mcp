@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-08
+
+- cafe-mcp is free only: 9 read-only tools with a 24PLUS account. The planned Plus plan and the engine-judgment tools
+  (`chart_structure`, `useful_element`, `luck_index`) are no longer listed; engine judgments are offered through the
+  CAFE Core API under a business agreement.
+- README and ontology README: the old "91.10% accuracy / F1 91.08%" figures are replaced by the useful/favorable-element agreement (75%, cross-validated on charts not used in training; 56% for the single useful element) and a description of the multi-method selection.
+- PRIVACY.md rewritten for the signed-in server, including that the local npx wrapper also sends birth data to the 24PLUS server.
+
 ## v1.1.0 (2026-10-18)
 
 The remote server at `https://mcp.24plus.ai.kr/mcp` is now the 24PLUS MCP gateway. Same URL, new server.

@@ -29,7 +29,7 @@ A formal W3C OWL ontology systematizing classical Korean Saju (사주명리학) 
 
 [비공개 - Proprietary]
 - CAFE 규칙 엔진
-- ML ensemble (91.10% accuracy)
+- 용신 판정 (여섯 이론 + 감정 사례 학습 모델)
 - SHAP 설명가능성
 - 교차 검증 시스템
 ```
@@ -202,7 +202,7 @@ This ontology uses a hybrid policy: **Korean transliteration + standardized Engl
 ### ❌ Not included (비공개 — proprietary)
 - 점수 가중치 / 신강신약 판정 알고리즘 / 용신 선택 룰
 - 격국 판정 로직 / AI 모델 파라미터
-- SHAP 가중치 / 91.10% ensemble weights
+- SHAP 가중치 / 용신 모델 가중치
 - 해석 템플릿
 
 ---
@@ -242,10 +242,11 @@ CC BY 4.0. Free to share and adapt with attribution to Dangamsoft.
 CAFE (Cross-weighted Analysis of the Five Elements)는 단감소프트가 개발한 명리학 하이브리드 AI 시스템입니다.
 
 - 6대 고전을 ground-truth corpus로 활용
-- ML ensemble: **91.10% accuracy** (5-class yongshin classification)
-- F1 91.08% · Precision 91.16% · Recall 91.10% · ROC AUC 97.76%
+- 용신은 여러 이론(억부·조후·병약·통관·격국, 종격 포함)이 후보를 세우고, 고전과 실제 감정 사례로 학습한 모델이 그 안에서 고릅니다.
+- **희용신 일치율 75%**: 학습에 쓰지 않은 사주에서, CAFE 가 제시한 용신·희신 안에 전문가가 정한 용신이 들어 있는 비율입니다. 용신 하나만 맞춰 보면 56%입니다 (2026-10-10 교차검증).
+- The useful element is chosen across several classical methods (support, climate, illness-remedy, mediation, structure including following), which propose candidates, and a model trained on classical and real consultation cases picks among them. **Useful/favorable-element agreement: 75%** of charts not used in training have the expert's useful element within the useful/favorable pair CAFE shows (56% for the single useful element; cross-validated, 2026-10-10).
 - SHAP-based explainability with classical theory alignment
 
-본 공개 온톨로지는 **공통 지식 레이어**입니다. CAFE 엔진의 규칙 엔진, ML 앙상블, 교차 검증, SHAP 설명가능성, RAG 해석 시스템은 단감소프트의 독점 자산으로 비공개 유지됩니다.
+본 공개 온톨로지는 **공통 지식 레이어**입니다. CAFE 엔진의 규칙 엔진, 용신 모델, 교차 검증, SHAP 설명가능성, RAG 해석 시스템은 단감소프트의 독점 자산으로 비공개 유지됩니다.
 
 🌐 https://24plus.ai.kr

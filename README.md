@@ -45,43 +45,59 @@ Disconnect any time from **My account > Connected AI**.
 
 ## Plans
 
-| | Free | Plus (launching soon) |
-|---|---|---|
-| Different charts per month | 10 | 100 |
-| Tool calls per month | 300 | 3,000 |
-| Calls per minute | 20 | 60 |
-| Engine judgments (structure, useful element, luck index) | – | ✓ |
-| Classics | 3 results, translation excerpt, table of contents | 10 results, full translation, full chapters |
+cafe-mcp is free with a 24PLUS account.
 
-A chart you have already looked up does not count again. Details: https://24plus.ai.kr/pricing
+| | Free | Business |
+|---|---|---|
+| Different charts per month | 10 | by agreement |
+| Tool calls per month | 300 | by agreement |
+| Calls per minute | 20 | by agreement |
+| Tools | the 9 tools below | CAFE Core API |
+| Engine judgments (useful element, chart structure, luck index, personality, compatibility, fortune) | – | ✓ |
+| Classics | 3 results, translation excerpt, table of contents | full translation, full chapters |
+
+A chart you have already looked up does not count again. Engine judgments and use inside your own product
+go through the CAFE Core API under a business agreement: https://24plus.ai.kr/mcp#business
 
 ## Tools
 
-| Tool | Plan | What it does |
-|---|---|---|
-| `saju_chart` | Free | Four pillars with Hanja, Five Elements, Ten Gods, hidden stems, twelve life stages, stars, combinations, clashes and void |
-| `luck_cycles` | Free | Ten-year cycles with start ages, yearly and monthly pillars |
-| `saju_reading_context` | Free | Chart facts, current luck, term meanings and reading principles in one prompt-ready bundle. The best first call for a reading |
-| `manse_calendar` | Free | A month of solar and lunar dates, day pillars, exact solar-term times, auspicious days |
-| `find_dates_by_pillars` | Free | Reverse lookup: the dates and times that produce given pillars |
-| `find_birthplace` | Free | City search for longitude correction (births outside Korea) |
-| `lookup_term` | Free | 980 Saju terms in Korean, Hanja and English |
-| `search_classics` | Free | Ziping Zhenquan, Ditian Sui, Qiongtong Baojian and more, original with Korean translation |
-| `read_classic` | Free | The library and each book's table of contents (full chapters on Plus) |
-| `chart_structure` | Plus | Day Master strength (1 to 5) with its basis, element ratios, structure pattern, climate |
-| `useful_element` | Plus | Useful element candidates by five classical methods and the engine's pick |
-| `luck_index` | Plus | A 1 to 5 level for each cycle, year or month, with the reasons |
+The server lists **9 read-only tools**, all free.
+
+| Tool | What it does |
+|---|---|
+| `saju_chart` | Four pillars with Hanja, Five Elements, Ten Gods, hidden stems, twelve life stages, stars, combinations, clashes and void |
+| `luck_cycles` | Ten-year cycles with start ages, yearly and monthly pillars |
+| `saju_reading_context` | Chart facts, current luck, term meanings and reading principles in one prompt-ready bundle. The best first call for a reading |
+| `manse_calendar` | A month of solar and lunar dates, day pillars, exact solar-term times, auspicious days |
+| `find_dates_by_pillars` | Reverse lookup: the dates and times that produce given pillars |
+| `find_birthplace` | City search for longitude correction (births outside Korea) |
+| `lookup_term` | 980 Saju terms in Korean, Hanja and English |
+| `search_classics` | Ziping Zhenquan, Ditian Sui, Qiongtong Baojian and more, original with a Korean translation excerpt |
+| `read_classic` | The library and each book's table of contents |
 
 Full reference with inputs and example prompts: https://24plus.ai.kr/docs/tools
+
+### About the engine's useful element judgment
+
+The useful element (yongshin) is not part of the public tools; it is available through the CAFE Core API.
+CAFE looks at a chart from several classical methods (eokbu/support, johu/climate, byeongyak/illness-remedy,
+tonggwan/mediation, gyeokguk/structure including jonggyeok/following), and a model trained on classical and real
+consultation cases picks among their candidates.
+
+**Useful/favorable-element agreement (희용신 일치율): 75%.** On charts not used in training, the expert's useful element
+is within the useful/favorable pair CAFE gives for 75% of charts; for the single useful element alone it is 56%
+(cross-validated, 2026-10-10).
 
 Values come back in Korean with Hanja; pass `lang="en"` for English term names.
 
 ## Principles
 
 - Calculation is deterministic; interpretation is left to your AI, grounded in the returned data.
-- No scores or fixed predictions in the free tools. Levels describe the strength of a tendency.
+- No scores, grades or fixed predictions.
 - Birth data is used only for the calculation. The server keeps a one-way fingerprint for the monthly chart count,
   never the birth date itself. See [PRIVACY.md](PRIVACY.md).
+- The old local npx wrapper (`npx @dangamsoft/cafe-mcp`) does not calculate on your machine either: it sends the
+  birth date, time and sex to the 24PLUS server to compute the chart.
 
 ## Before v1.1.0
 
