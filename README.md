@@ -9,7 +9,7 @@ CAFE engine. Your AI writes the reading in the user's language.
 
 [![Remote](https://img.shields.io/badge/Remote-mcp.24plus.ai.kr-blue.svg)](#quick-start)
 [![Auth](https://img.shields.io/badge/Auth-OAuth%20%7C%20key-informational.svg)](#quick-start)
-[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-2.1.1-green.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
 > **Why not just ask the LLM?** A general model improvises the chart: the same birth data gives a different

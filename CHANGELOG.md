@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.1 (2026-11-22)
+
+- Fixed on the server: choosing the early Rat hour (`zi_hour: "early"`, 조자시) now moves births from the start of the
+  Rat hour to the next day, as documented. Before this fix the server always used the late rule. Since 2.0 early is the
+  default, so births between about 23:30 and 00:30 (Korea) can show a different day pillar than before.
+- `boundary-cases/`: case zi-2 recomputed (day pillar 辛巳), and the notes for zi-1 to zi-3 explain the solar-time basis.
+
 ## 2.1.0 (2026-11-22)
 
 - The npm bridge shows something useful before you have a key: `cafe_mcp_sample` returns real CAFE engine results for
