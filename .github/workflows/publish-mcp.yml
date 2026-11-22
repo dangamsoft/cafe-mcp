@@ -70,6 +70,12 @@ jobs:
           # 2026-11-22 v2.0.0 첫 실행에서 npm view 가 없는 버전에도 0 으로 끝나 「이미 올라감」으로 잘못 건너뛰었다 → 출력 값으로 비교
           if [ "$(npm view "@dangamsoft/cafe-mcp@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then echo "npm $VERSION already published"; exit 0; fi
           npm publish --access public || { echo "npm publish failed: set up Trusted Publishing on npmjs.com (see the comment above) or publish from the PC"; exit 1; }
+          # 2026-11-22 v2.1.0: 방금 올린 버전이 npm 에 보이기 전에 MCP 목록 등록이 먼저 돌아 실패했다 → 보일 때까지 최대 3분 기다림
+          for i in $(seq 1 18); do
+            [ "$(npm view "@dangamsoft/cafe-mcp@$VERSION" version 2>/dev/null)" = "$VERSION" ] && { echo "npm $VERSION visible"; exit 0; }
+            sleep 10
+          done
+          echo "npm $VERSION not visible yet after 3 minutes"
 
       - name: Install mcp-publisher
         run: |
