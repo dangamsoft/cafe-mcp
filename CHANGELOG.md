@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0 (2026-11-22)
+
+- The npm bridge shows something useful before you have a key: `cafe_mcp_sample` returns real CAFE engine results for
+  tricky births computed in advance (Lichun, the Rat hour, daylight saving, longitude), with the basis the engine used,
+  next to `cafe_mcp_setup`.
+
 ## 2.0.0 (2026-11-22)
 
 - **Rat hour default is now `early` (조자시)**: the day changes when the Rat hour (子時) starts, 23:30 with the Korean

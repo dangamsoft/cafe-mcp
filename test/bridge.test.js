@@ -25,7 +25,10 @@ test("no key: only the setup tool, and it explains how to get a key", async () =
   const { server } = createBridge({ key: "" });
   const c = await clientFor(server);
   const { tools } = await c.listTools();
-  assert.deepEqual(tools.map((t) => t.name), [SETUP_TOOL.name]);
+  assert.deepEqual(tools.map((t) => t.name), ["cafe_mcp_sample", SETUP_TOOL.name]);
+  const s = await c.callTool({ name: "cafe_mcp_sample", arguments: { topic: "year_boundary" } });
+  assert.match(s.content[0].text, /Lichun|ipchun/i);
+  assert.match(s.content[0].text, /24plus\.ai\.kr\/my/);
   const r = await c.callTool({ name: "saju_chart", arguments: {} });
   assert.match(r.content[0].text, /24plus\.ai\.kr\/my/);
 });

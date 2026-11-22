@@ -43,6 +43,35 @@ export function setupText(reason = "") {
   ].join("\n");
 }
 
+/** 2026-11-22 맛보기: 키 없이도 엔진 결과가 어떤지 보이게 — 미리 계산해 둔 경계 사례(boundary-cases/cases.json, 엔진 결과)를 보여 준다. 새 계산은 하지 않는다 */
+export const SAMPLE_TOOL = {
+  name: "cafe_mcp_sample",
+  description: "Show real CAFE engine results for tricky births computed in advance (a birth minutes before Lichun, around midnight, in a daylight-saving year, outside Korea), with the basis the engine used. No key needed. To compute any other birth, the user needs a free 24PLUS key (see cafe_mcp_setup).",
+  inputSchema: { type: "object", properties: { topic: { type: "string", enum: ["year_boundary", "rat_hour", "daylight_saving", "longitude", "all"], description: "Which kind of case to show (default all)." } } },
+  annotations: { readOnlyHint: true },
+};
+const TOPIC = { year_boundary: ["ipchun", "dongji"], rat_hour: ["zi"], daylight_saving: ["dst"], longitude: ["lmt", "tz"] };
+
+export function sampleText(topic = "all") {
+  let data;
+  try { data = JSON.parse(readFileSync(new URL("./boundary-cases/cases.json", import.meta.url), "utf8")); }
+  catch { return setupText(); }
+  const pre = TOPIC[topic] ?? Object.values(TOPIC).flat();
+  const picked = [];
+  for (const p of pre) { const c = data.cases.find((x) => x.id.startsWith(p + "-") && !picked.includes(x)); if (c) picked.push(c); }
+  const lines = [`Sample results from the ${data.engine} engine, computed in advance (rules: year ${data.defaults.year_boundary}, Rat hour ${data.defaults.zi_hour}, Korean longitude correction ${data.defaults.korea_time ? "on" : "off"}).`, ""];
+  for (const c of picked) {
+    const r = c.result || {};
+    const b = String(c.subject?.birth || "");
+    const when = b.length >= 12 ? `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)} ${b.slice(8, 10)}:${b.slice(10, 12)}` : b;
+    lines.push(`- ${c.topic} · birth ${when}${c.subject?.gender ? " " + c.subject.gender : ""}: year ${r.year ?? "-"}, month ${r.month ?? "-"}, day ${r.day ?? "-"}, hour ${r.hour ?? "-"}`
+      + (r.time_note ? ` (time basis: ${r.time_note.basis ?? ""}, correction ${r.time_note.correction_min ?? 0} min, DST ${r.time_note.dst_min ?? 0} min)` : ""));
+  }
+  if (data.defaults.zi_hour === "late") lines.push("", "Note: these examples use the late Rat hour (야자시). Since 2.0 the server defaults to early (조자시); pass zi_hour \"late\" to get the results above.");
+  lines.push("", "These are fixed examples. To compute any birth (full chart, luck cycles, calendar, classics), get a free key:", setupText());
+  return lines.join("\n");
+}
+
 const authFail = (e) => /401|403|unauthori[sz]ed|forbidden|invalid[_ ]token/i.test(String(e?.message ?? e));
 
 export function createBridge({ key = readKey(), url = REMOTE_URL, transportFactory } = {}) {
@@ -68,12 +97,15 @@ export function createBridge({ key = readKey(), url = REMOTE_URL, transportFacto
   );
 
   server.setRequestHandler(ListToolsRequestSchema, async (req) => {
-    if (!key) return { tools: [SETUP_TOOL] };
+    if (!key) return { tools: [SAMPLE_TOOL, SETUP_TOOL] };
     try { return await (await connect()).listTools(req.params); }
     catch (e) { return { tools: [{ ...SETUP_TOOL, description: `cafe-mcp could not reach the 24PLUS server (${authFail(e) ? "the key was not accepted" : "network error"}). Call this for help.` }] }; }
   });
 
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
+    if (req.params.name === SAMPLE_TOOL.name) {
+      return { content: [{ type: "text", text: sampleText(req.params.arguments?.topic) }] };
+    }
     if (req.params.name === SETUP_TOOL.name || !key) {
       return { content: [{ type: "text", text: setupText(key ? "" : "No key is set yet.") }] };
     }
