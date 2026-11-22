@@ -9,7 +9,7 @@ CAFE engine. Your AI writes the reading in the user's language.
 
 [![Remote](https://img.shields.io/badge/Remote-mcp.24plus.ai.kr-blue.svg)](#quick-start)
 [![Auth](https://img.shields.io/badge/Auth-OAuth%20%7C%20key-informational.svg)](#quick-start)
-[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-2.0.0-green.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
 > **Why not just ask the LLM?** A general model improvises the chart: the same birth data gives a different
@@ -41,6 +41,13 @@ claude mcp add --transport http cafe-mcp https://mcp.24plus.ai.kr/mcp --header "
 { "mcpServers": { "cafe-mcp": { "url": "https://mcp.24plus.ai.kr/mcp", "headers": { "Authorization": "Bearer mcp_live_..." } } } }
 ```
 
+**Clients that only start local (stdio) servers**: run the npm bridge with your key. It forwards every request to
+the server above; nothing is calculated on your machine.
+
+```json
+{ "mcpServers": { "cafe-mcp": { "command": "npx", "args": ["-y", "@dangamsoft/cafe-mcp"], "env": { "CAFE_MCP_KEY": "mcp_live_..." } } } }
+```
+
 Disconnect any time from **My account > Connected AI**.
 
 ## Plans
@@ -57,7 +64,7 @@ cafe-mcp is free with a 24PLUS account.
 | Classics | 3 results, translation excerpt, table of contents | full translation, full chapters |
 
 A chart you have already looked up does not count again. Engine judgments and use inside your own product
-go through the CAFE Core API under a business agreement: https://24plus.ai.kr/mcp#business
+go through the CAFE Core API under a business agreement: https://24plus.ai.kr/business
 
 ## Tools
 
@@ -84,6 +91,11 @@ through the CAFE Core API under a business agreement.
 
 Values come back in Korean with Hanja; pass `lang="en"` for English term names.
 
+Calculation basis (every `saju_chart` result also returns it as `basis`): the year changes at Lichun (입춘), the month
+at each solar term, birth times are corrected to the birthplace longitude, and Korean daylight-saving years are
+taken out automatically. The Rat hour (子時) defaults to `zi_hour: "early"` (조자시): the day changes when the Rat hour
+starts. Pass `zi_hour: "late"` (야자시) to keep a birth before midnight on the same day.
+
 ## Principles
 
 - Calculation is deterministic; interpretation is left to your AI, grounded in the returned data.
@@ -96,12 +108,13 @@ Values come back in Korean with Hanja; pass `lang="en"` for English term names.
 ## Before v1.1.0
 
 Until 2026-10-18 this URL served an open server with six tools and no sign-in, and the npm package
-`@dangamsoft/cafe-mcp` ran it locally over stdio. Both are retired; the npm package is deprecated.
+`@dangamsoft/cafe-mcp` ran it locally over stdio. Both are retired. Since 2.0.0 the npm package is a stdio bridge to
+the signed-in server (see Quick start).
 See [CHANGELOG.md](CHANGELOG.md).
 
 ## About
 
 cafe-mcp is run by **24PLUS** (Dangamsoft, Korea), built on the CAFE engine.
-Website: https://24plus.ai.kr · Business API (Core API): https://24plus.ai.kr/mcp#business
+Website: https://24plus.ai.kr · Business API (Core API): https://24plus.ai.kr/business
 
 License: Apache-2.0 for the code in this repository.

@@ -7,11 +7,29 @@
     "url": "https://github.com/dangamsoft/cafe-mcp",
     "source": "github"
   },
-  "version": "1.1.0",
+  "version": "2.0.0",
   "remotes": [
     {
       "type": "streamable-http",
       "url": "https://mcp.24plus.ai.kr/mcp"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@dangamsoft/cafe-mcp",
+      "version": "2.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "CAFE_MCP_KEY",
+          "description": "Personal 24PLUS key (mcp_live_...) from https://24plus.ai.kr/my",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,230 @@
+[
+ {
+  "id": "ipchun-1",
+  "topic": "year boundary (Lichun)",
+  "why": "입춘 2024-02-04 17:27 KST 전후. 연주가 癸卯 → 甲辰 으로 바뀌는 순간",
+  "subject": {
+   "birth": "202402041630",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "ipchun-2",
+  "topic": "year boundary (Lichun)",
+  "why": "입춘 절입 직전 (KST 시계 기준)",
+  "subject": {
+   "birth": "202402041700",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "ipchun-3",
+  "topic": "year boundary (Lichun)",
+  "why": "KST 17:40 = 입절 13분 뒤. 출생 시각에 지방평균시 보정(약 -32분)을 하면 17:08 — 절입 시각과 같은 기준으로 비교하는지 확인하는 사례",
+  "subject": {
+   "birth": "202402041740",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "ipchun-4",
+  "topic": "year boundary (Lichun)",
+  "why": "입절 43분 뒤 — 보정을 해도 입춘 뒤",
+  "subject": {
+   "birth": "202402041810",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "dongji-1",
+  "topic": "year boundary option",
+  "why": "동지 뒤 · 입춘 전. year_boundary=ipchun(기본) 과 dongji 의 연주가 다름",
+  "subject": {
+   "birth": "202312251200",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "dongji-2",
+  "topic": "year boundary option",
+  "why": "같은 시각, 동지 기준",
+  "subject": {
+   "birth": "202312251200",
+   "gender": "F",
+   "options": {
+    "year_boundary": "dongji"
+   }
+  }
+ },
+ {
+  "id": "jeolgi-1",
+  "topic": "month boundary (solar term)",
+  "why": "경칩 2025-03-05 11:07 KST 직전 — 월주 戊寅",
+  "subject": {
+   "birth": "202503051030",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "jeolgi-2",
+  "topic": "month boundary (solar term)",
+  "why": "경칩 직후 — 월주 己卯",
+  "subject": {
+   "birth": "202503051140",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "zi-1",
+  "topic": "zi hour (23:00-01:00)",
+  "why": "23:40, 야자시(기본 late): 일주는 그날 그대로",
+  "subject": {
+   "birth": "199005152340",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "zi-2",
+  "topic": "zi hour (23:00-01:00)",
+  "why": "같은 시각, 조자시(early): 23시에 날이 바뀜",
+  "subject": {
+   "birth": "199005152340",
+   "gender": "F",
+   "options": {
+    "zi_hour": "early"
+   }
+  }
+ },
+ {
+  "id": "zi-3",
+  "topic": "zi hour (23:00-01:00)",
+  "why": "다음 날 00:20 — 두 학파 모두 다음 날",
+  "subject": {
+   "birth": "199005160020",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "lmt-1",
+  "topic": "local mean time (longitude)",
+  "why": "한국 표준시는 동경 135°, 서울은 약 127°. 약 30분 빠름 — 07:20 은 보정하면 卯시",
+  "subject": {
+   "birth": "199207080720",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "lmt-2",
+  "topic": "local mean time (longitude)",
+  "why": "07:40 KST → 보정 07:08 → 辰시. KST 로는 07:32 무렵이 卯·辰 경계",
+  "subject": {
+   "birth": "199207080740",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "lmt-3",
+  "topic": "local mean time (longitude)",
+  "why": "07:30 KST — 경계 바로 앞 (보정 06:58 卯시)",
+  "subject": {
+   "birth": "199207080730",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "dst-1",
+  "topic": "Korean daylight saving",
+  "why": "1988 서머타임(5/8~10/9, +1시간) 기간의 12:10 — 시계보다 1시간 이름",
+  "subject": {
+   "birth": "198807011210",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "dst-2",
+  "topic": "Korean daylight saving",
+  "why": "1987 서머타임 시작일 새벽 (5/10 02:00 → 03:00) 03:10",
+  "subject": {
+   "birth": "198705100310",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "dst-3",
+  "topic": "Korean daylight saving",
+  "why": "1960 서머타임 기간",
+  "subject": {
+   "birth": "196005011200",
+   "gender": "M"
+  }
+ },
+ {
+  "id": "tz-1",
+  "topic": "historical standard time UTC+8:30",
+  "why": "1954-03-21 ~ 1961-08-09 한국 표준시는 UTC+8:30 (동경 127.5°)",
+  "subject": {
+   "birth": "195501010710",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "tz-2",
+  "topic": "historical standard time UTC+8:30",
+  "why": "1961-08-10 UTC+9 로 바뀐 뒤 같은 시각",
+  "subject": {
+   "birth": "196108150710",
+   "gender": "F"
+  }
+ },
+ {
+  "id": "leap-1",
+  "topic": "lunar leap month",
+  "why": "음력 2023-02-15 (평달)",
+  "subject": {
+   "birth": "202302151200",
+   "gender": "M",
+   "calendar": "lunar"
+  }
+ },
+ {
+  "id": "leap-2",
+  "topic": "lunar leap month",
+  "why": "음력 2023 윤2월 15일 — 평달과 한 달 차이",
+  "subject": {
+   "birth": "202302151200",
+   "gender": "M",
+   "calendar": "lunar",
+   "leap_month": true
+  }
+ },
+ {
+  "id": "leap-3",
+  "topic": "lunar leap month",
+  "why": "음력 2020 윤4월 10일",
+  "subject": {
+   "birth": "202004101200",
+   "gender": "F",
+   "calendar": "lunar",
+   "leap_month": true
+  }
+ },
+ {
+  "id": "unknown-1",
+  "topic": "birth time unknown",
+  "why": "시 모름 — 시주 없이 세 기둥",
+  "subject": {
+   "birth": "19741230",
+   "gender": "M",
+   "time_unknown": true
+  }
+ },
+ {
+  "id": "old-1",
+  "topic": "before 1900",
+  "why": "1899-12-31 — 1900 이전 날짜 계산",
+  "subject": {
+   "birth": "189912311200",
+   "gender": "M"
+  }
+ }
+]

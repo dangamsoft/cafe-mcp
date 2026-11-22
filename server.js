@@ -52,7 +52,7 @@ export const BIRTH_INPUT = {
   longitude: z.number().min(-180).max(180).optional().describe("Birthplace longitude in degrees, east positive, west negative (New York -74.0, London -0.1, Seoul 127.0). Required with a non-Korean timezone."),
   loc: z.number().int().optional().describe("Legacy: 24Plus world-city ID. Prefer timezone + longitude."),
   time_unknown: z.boolean().optional().describe("Birth time unknown; the hour pillar is marked as estimated."),
-  rat_hour_rule: z.enum(["late", "early"]).optional().describe("Rat-hour (子時) rule: 'late' 야자시 (default) or 'early' 조자시."),
+  rat_hour_rule: z.enum(["late", "early"]).optional().describe("Rat-hour (子時) rule: 'early' 조자시 (default: the day changes when the Rat hour starts) or 'late' 야자시 (before midnight keeps the same day)."),
   year_boundary: z.enum(["lichun", "winter_solstice"]).optional().describe("Year pillar boundary: 'lichun' 입춘 (default) or 'winter_solstice' 동지."),
   name: z.string().max(40).optional().describe("Optional display name."),
   // legacy aliases (v0.6)
@@ -91,7 +91,7 @@ export function toBackendBody(args, preset) {
       name: typeof args.name === "string" ? args.name : "",
       is_lunar: lunar,
       is_leap_year: lunar && Boolean(args.lunar_leap_month ?? args.is_leap_year),
-      option1: args.rat_hour_rule ? (args.rat_hour_rule === "early" ? 1 : 0) : (args.option1 === 1 ? 1 : 0),
+      option1: args.rat_hour_rule ? (args.rat_hour_rule === "early" ? 1 : 0) : (args.option1 === 0 ? 0 : 1),   // 2026-11-22 default 조자시 (낭만·24PLUS 통일)
       option2: args.year_boundary ? (args.year_boundary === "winter_solstice" ? -1 : 0) : (args.option2 === -1 ? -1 : 0),
       time_unknown: Boolean(args.time_unknown),
       ...(Number.isInteger(args.loc) ? { loc: args.loc } : {}),

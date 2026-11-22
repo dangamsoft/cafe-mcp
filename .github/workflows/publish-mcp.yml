@@ -49,18 +49,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      # --- Optional: fully automate npm publishing too ---
-      # The npm package is currently published manually. To have CI publish it,
-      # uncomment this block and add an NPM_TOKEN repository secret.
-      #
-      # - uses: actions/setup-node@v5
-      #   with:
-      #     node-version: "lts/*"
-      #     registry-url: "https://registry.npmjs.org"
-      # - run: npm ci
-      # - run: npm publish --access public
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # 2026-11-22 npm (2.x stdio bridge) is published here too, before the registry step that checks it.
+      #   No token needed: npm Trusted Publishing (OIDC, this job has id-token: write). One-time setup on npmjs.com:
+      #   package Settings > Trusted Publisher > GitHub Actions · dangamsoft / cafe-mcp · publish-mcp.yml.
+      #   NPM_TOKEN secret also works. Skipped when that version is already on npm (published from the PC).
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm install -g npm@latest   # trusted publishing needs npm 11.5.1+
+      - run: npm ci
+      - run: npm test
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          [ "$VERSION" = "$PKG_VERSION" ] || { echo "tag v$VERSION != package.json $PKG_VERSION"; exit 1; }
+          if npm view "@dangamsoft/cafe-mcp@$VERSION" version >/dev/null 2>&1; then echo "npm $VERSION already published"; exit 0; fi
+          npm publish --access public || { echo "npm publish failed: set up Trusted Publishing on npmjs.com (see the comment above) or publish from the PC"; exit 1; }
 
       - name: Install mcp-publisher
         run: |

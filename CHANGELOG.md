@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.0.0 (2026-11-22)
+
+- **Rat hour default is now `early` (조자시)**: the day changes when the Rat hour (子時) starts, 23:30 with the Korean
+  longitude correction. Every tool uses the same rule. Pass `zi_hour: "late"` (야자시) to keep a birth before midnight
+  on the same day. 24PLUS and 낭만만세력 use the same default.
+- **The npm package is back as a stdio bridge.** `npx -y @dangamsoft/cafe-mcp` with `CAFE_MCP_KEY=mcp_live_...` gives
+  clients that only start local servers the same tools and prompts as `https://mcp.24plus.ai.kr/mcp`. Nothing is
+  calculated locally. Without a key it lists one `cafe_mcp_setup` tool that explains how to get one.
+- `server.json` lists the npm package again (stdio, `CAFE_MCP_KEY`) next to the remote server.
+
+## 2026-11-20
+
+- `saju_chart` returns `basis`: year boundary, month boundary, zi hour, time correction, daylight saving, time unknown.
+- `saju_chart` options: `year_boundary` (`ipchun` default, `dongji`), `zi_hour` (`late` default, `early`), `detail` (`full` default, `summary`).
+- Everyday date and time forms are accepted (`1990/5/15`, `19900515`, `1990년 5월 15일`, `2:30 PM`, `오후 2시 30분`). Input errors now say how to fix the call, with an example.
+- New prompts: *Explain my chart simply*, *My luck timing this year*, *Check a date in the Saju calendar*.
+- New: [`boundary-cases/`](boundary-cases/) (24 cases on Lichun, solar terms, zi hour, longitude, DST, UTC+8:30, leap months) and guides in [`docs/guides/`](docs/guides/).
+
 ## 2026-11-08
 
 - cafe-mcp is free only: 9 read-only tools with a 24PLUS account. The planned Plus plan and the engine-judgment tools

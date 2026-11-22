@@ -1,9 +1,5 @@
 #!/usr/bin/env node
-/** @dangamsoft/cafe-mcp — stdio entry. Server definition lives in server.js. */
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { createServer, PKG } from "./server.js";
+/** @dangamsoft/cafe-mcp — stdio entry. Since 2.0.0 a bridge to https://mcp.24plus.ai.kr/mcp (see bridge.js). */
+import { main } from "./bridge.js";
 
-const server = createServer();
-await server.connect(new StdioServerTransport());
-// stderr only: stdout carries the MCP protocol stream.
-console.error(`[cafe-mcp ${PKG.version}] ready`);
+await main();
