@@ -17,8 +17,8 @@ We do not receive your conversation with your AI app.
 ## The local npx wrapper also sends data to 24PLUS
 
 The npm package (`npx @dangamsoft/cafe-mcp`) runs on your machine but does **not** calculate there: it sends the
-birth date, time and sex to the 24PLUS server, and the CAFE engine computes the chart. The package is deprecated;
-use the remote server above.
+birth date, time and sex to the 24PLUS server, and the CAFE engine computes the chart. Since 2.0.0 it is a bridge
+to the remote server above and needs your personal key (`CAFE_MCP_KEY`); requests count toward your account the same way.
 
 ## How it is used
 
